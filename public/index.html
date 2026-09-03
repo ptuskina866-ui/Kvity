@@ -7,7 +7,7 @@
   
   <!-- PWA и мета-теги -->
   <meta name="description" content="Сервис совместных расходов и деления чеков без регистрации (Zero-login)">
-  <meta name="theme-color" content="#f8f6f0">
+  <meta name="theme-color" content="#f8fafc">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Квиты">
@@ -26,28 +26,19 @@
         extend: {
           fontFamily: {
             sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'sans-serif'],
-          },
-          colors: {
-            finans: {
-              yellow: '#fed843',
-              yellowHover: '#facc15',
-              dark: '#111827',
-              gray: '#6b7280',
-              light: '#f8f6f0'
-            }
           }
         }
       }
     }
   </script>
 
-  <!-- Стили Liquid Glass -->
+  <!-- Стили Apple Liquid Glass -->
   <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body class="antialiased min-h-screen flex flex-col justify-between selection:bg-yellow-300 selection:text-slate-900">
+<body class="antialiased min-h-screen flex flex-col justify-between selection:bg-slate-900 selection:text-white">
 
-  <!-- Toast-уведомления (Liquid Glass стиль) -->
+  <!-- Toast-уведомления -->
   <div id="toast-container" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
 
   <!-- Главная страница (Создание сбора) -->
@@ -57,13 +48,13 @@
   <main id="view-room" class="flex-1 hidden pb-36">
     <!-- Индикатор загрузки -->
     <div id="room-loading" class="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-      <div class="w-10 h-10 border-3 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin"></div>
+      <div class="w-10 h-10 border-3 border-slate-300 border-t-slate-900 rounded-full animate-spin"></div>
       <p class="text-xs text-slate-500 font-medium tracking-wide">Синхронизация данных...</p>
     </div>
 
     <!-- Контент комнаты -->
     <div id="room-content" class="hidden max-w-md mx-auto p-4 space-y-5">
-      <!-- Навигационная панель -->
+      <!-- Навигационная панель Apple -->
       <header class="flex items-center justify-between pt-1">
         <a href="#" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-slate-800 hover:text-slate-950 transition active:scale-95" title="На главную">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -79,14 +70,14 @@
         </button>
       </header>
 
-      <!-- Карточка баланса в стиле Neobank (как на референсе Finans) -->
+      <!-- Карточка баланса в стиле Apple Wallet (Liquid Glass) -->
       <section class="liquid-glass-card rounded-[32px] p-6 space-y-5">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Общие расходы</span>
           </div>
-          <span id="room-currency-badge" class="px-3 py-1 rounded-full bg-slate-100/80 border border-slate-200/60 text-slate-800 text-xs font-black tracking-tight">RUB</span>
+          <span id="room-currency-badge" class="px-3 py-1 rounded-full bg-slate-100/90 border border-slate-200/80 text-slate-800 text-xs font-black tracking-tight">RUB</span>
         </div>
 
         <div>
@@ -99,7 +90,7 @@
           </div>
         </div>
 
-        <!-- Быстрые действия (Quick Actions как на референсе) -->
+        <!-- Быстрые действия (Quick Actions) -->
         <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
           <button id="btn-open-participants" class="py-2.5 px-3 rounded-2xl liquid-glass flex items-center justify-center gap-2 text-xs font-bold text-slate-800 hover:bg-white transition active:scale-95">
             <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
@@ -112,7 +103,7 @@
           </button>
         </div>
 
-        <!-- Переключатель вкладок (Сегмент) -->
+        <!-- Переключатель вкладок Apple iOS -->
         <div class="segment-container flex gap-1">
           <button id="tab-btn-expenses" class="flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition">
             Расходы
@@ -123,7 +114,7 @@
         </div>
       </section>
 
-      <!-- Вкладка 1: Список расходов (Transaction из референса) -->
+      <!-- Вкладка 1: Список расходов -->
       <section id="tab-expenses-content" class="space-y-3">
         <div class="flex items-center justify-between px-1">
           <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400">История операций</h2>
@@ -131,7 +122,7 @@
         <div id="expenses-list-container" class="space-y-2.5"></div>
       </section>
 
-      <!-- Вкладка 2: Балансы и взаиморасчеты (Transfer из референса) -->
+      <!-- Вкладка 2: Балансы и взаиморасчеты -->
       <section id="tab-balances-content" class="space-y-4 hidden">
         <div class="space-y-2.5">
           <div class="flex items-center justify-between px-1">
@@ -149,16 +140,16 @@
       </section>
     </div>
 
-    <!-- Плавающая нижняя панель с фирменной желтой кнопкой (как на референсе) -->
+    <!-- Плавающая нижняя панель Apple (минималистичный графитовый pill) -->
     <div class="floating-dock-wrapper">
-      <button id="btn-open-add-expense" class="floating-action-btn px-7 py-4 rounded-full font-black flex items-center gap-2.5 text-sm tracking-tight">
-        <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+      <button id="btn-open-add-expense" class="floating-action-btn px-7 py-4 rounded-full font-bold flex items-center gap-2.5 text-sm tracking-tight">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
         <span>Добавить расход</span>
       </button>
     </div>
   </main>
 
-  <!-- Модальное окно: Добавить расход (Liquid Glass Sheet) -->
+  <!-- Модальное окно: Добавить расход (Apple Liquid Sheet) -->
   <div id="modal-add-expense" class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-slate-900/35 backdrop-blur-md">
     <div class="liquid-glass-card border-t sm:border border-white/80 rounded-t-[36px] sm:rounded-[36px] w-full max-w-md p-6 space-y-5 animate-liquid-sheet max-h-[92vh] overflow-y-auto">
       <div class="w-10 h-1.5 bg-slate-300/80 rounded-full mx-auto mb-1"></div>
@@ -169,7 +160,7 @@
       </div>
 
       <div class="space-y-4">
-        <!-- Поле суммы крупно (Add Money стиль из референса) -->
+        <!-- Поле суммы крупно -->
         <div class="p-5 rounded-3xl liquid-glass text-center border border-white/90">
           <label class="block text-xs font-semibold text-slate-400 mb-1">Сумма расхода</label>
           <input type="number" step="0.01" min="0" id="expense-amount" placeholder="0"
@@ -200,14 +191,14 @@
       </div>
 
       <div class="pt-2">
-        <button id="btn-save-expense" class="w-full py-4 px-4 btn-finans-yellow rounded-2xl text-sm font-black tracking-tight">
+        <button id="btn-save-expense" class="w-full py-4 px-4 btn-apple-primary rounded-2xl text-sm font-bold tracking-tight">
           Сохранить расход
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Модальное окно: Участники и реквизиты (Liquid Glass Sheet) -->
+  <!-- Модальное окно: Участники и реквизиты (Apple Liquid Sheet) -->
   <div id="modal-participants" class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-slate-900/35 backdrop-blur-md">
     <div class="liquid-glass-card border-t sm:border border-white/80 rounded-t-[36px] sm:rounded-[36px] w-full max-w-md p-6 space-y-5 animate-liquid-sheet max-h-[92vh] overflow-y-auto">
       <div class="w-10 h-1.5 bg-slate-300/80 rounded-full mx-auto mb-1"></div>
