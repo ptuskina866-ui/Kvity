@@ -181,7 +181,7 @@ export const App = {
 
             <div>
               <label class="block text-xs font-bold text-forest-muted mb-1.5">Куда едем или что празднуем?</label>
-              <input type="text" id="new-room-title" placeholder="например: Кемпинг у озера, Поездка в горы, Дача"
+              <input type="text" id="new-room-title" placeholder="например: Шашлыки, Бар, Дача"
                 class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-semibold placeholder-forest-muted/50 focus:outline-none transition">
             </div>
 
