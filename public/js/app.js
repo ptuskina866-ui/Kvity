@@ -156,18 +156,9 @@ export const App = {
       <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
         <div class="space-y-6 pt-2">
           
-          <!-- Красивый центрированный логотип в природной стилистике -->
-          <div class="flex flex-col items-center justify-center pt-2 pb-1 text-center">
-            <div class="w-14 h-14 rounded-3xl liquid-glass flex items-center justify-center shadow-lg border border-white mb-2">
-              <svg class="w-8 h-8 text-forest-dark" viewBox="0 0 32 32" fill="none">
-                <rect x="4" y="4" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.9"/>
-                <rect x="18" y="4" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.6"/>
-                <rect x="4" y="18" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.6"/>
-                <rect x="18" y="18" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.9"/>
-                <circle cx="16" cy="16" r="3.5" fill="#ffffff" stroke="#0f2922" stroke-width="2"/>
-              </svg>
-            </div>
-            <span class="text-base font-black tracking-[0.25em] text-forest-dark uppercase">КВИТЫ</span>
+          <!-- Фирменный логотип «Квиты» -->
+          <div class="flex flex-col items-center justify-center pt-3 pb-1 text-center">
+            <img src="images/logo.webp" alt="Квиты" class="w-60 sm:w-72 max-w-full h-auto drop-shadow-md select-none">
           </div>
 
           <!-- Главный типографический блок с любимой фразой (центрированный) -->
