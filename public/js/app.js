@@ -145,7 +145,7 @@ export const App = {
     }
   },
 
-  // --- ГЛАВНАЯ СТРАНИЦА: SAGE & FOREST VIBE ПО РЕФЕРЕНСУ ---
+  // --- ГЛАВНАЯ СТРАНИЦА: ДИЗАЙНЕРСКИЙ БУМ С ПАРЯЩИМИ 3D ЭЛЕМЕНТАМИ ---
 
   renderHomeView() {
     const container = document.getElementById('view-home');
@@ -154,33 +154,67 @@ export const App = {
 
     container.innerHTML = `
       <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
-        <div class="space-y-5 pt-2">
+        <div class="space-y-6 pt-2">
           
           <!-- Шапка с брендом -->
           <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-2xl bg-forest-dark flex items-center justify-center shadow-md">
-                <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+              <div class="w-10 h-10 rounded-2xl bg-forest-dark flex items-center justify-center shadow-lg shadow-forest-dark/15">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
               </div>
-              <span class="text-lg font-black tracking-tight text-forest-dark">Квиты</span>
+              <span class="text-xl font-black tracking-tight text-forest-dark">Квиты</span>
             </div>
 
-            <span class="text-[11px] font-bold text-forest-dark bg-white/70 px-3 py-1 rounded-full border border-white">Zero-Login</span>
+            <span class="text-[11px] font-bold text-forest-dark bg-white/70 px-3 py-1 rounded-full border border-white shadow-xs">Zero-Login</span>
           </div>
 
-          <!-- Фото-коллаж в стиле кемпинг/поездки из левого экрана референса -->
-          <div class="relative rounded-[32px] overflow-hidden shadow-xl border border-white/60 aspect-[16/10] bg-forest-dark/10">
-            <img src="images/hero-collage.jpg" alt="Поездки и совместные моменты" class="w-full h-full object-cover object-center">
-            <div class="absolute inset-0 bg-gradient-to-t from-forest-dark/85 via-forest-dark/30 to-transparent flex flex-col justify-end p-5">
-              <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Совместные расходы</span>
-              <h1 class="text-2xl font-black text-white leading-tight mt-1">
-                Делите расходы<br>в поездках легко!
-              </h1>
+          <!-- Главный типографический блок с любимой фразой -->
+          <div class="pt-2 px-1">
+            <h1 class="text-3xl font-black text-forest-dark leading-[1.18] tracking-tight">
+              Разделите расходы,<br><span class="text-forest-muted">сохраните дружбу.</span>
+            </h1>
+            <p class="text-xs text-forest-muted font-medium mt-2 leading-relaxed">
+              Быстрый расчет чеков, счетов и долгов для поездок и вечеринок без обязательной регистрации.
+            </p>
+          </div>
+
+          <!-- Парящая 3D композиция (Interactive Floating 3D Elements) -->
+          <div class="relative h-44 w-full flex items-center justify-center select-none pointer-events-none">
+            
+            <!-- Парящая 3D палатка (из референса Tenda Greeniest) -->
+            <div class="absolute left-3 top-2 w-32 h-32 animate-float z-10">
+              <img src="images/tent.jpg" alt="Палатка" class="w-full h-full object-contain blend-multiply drop-shadow-md">
+            </div>
+
+            <!-- Парящий 3D чайник для костра -->
+            <div class="absolute right-4 bottom-1 w-24 h-24 animate-float-delayed z-10">
+              <img src="images/kettle.jpg" alt="Кофе на костре" class="w-full h-full object-contain blend-multiply drop-shadow-md">
+            </div>
+
+            <!-- Парящий интерактивный бейдж расхода 1 -->
+            <div class="absolute right-3 top-4 liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-lg animate-float-delayed z-20 pointer-events-auto">
+              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+              <span class="text-xs font-black text-forest-dark">Палатки • 3 200 ₽</span>
+            </div>
+
+            <!-- Парящий интерактивный бейдж расхода 2 -->
+            <div class="absolute left-4 bottom-3 liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-lg animate-float z-20 pointer-events-auto">
+              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+              <span class="text-xs font-black text-forest-dark">Кофе и завтрак • 850 ₽</span>
             </div>
           </div>
 
-          <!-- Форма создания сбора в стиле Liquid Glass -->
+          <!-- Форма создания сбора в ультралегком Liquid Glass -->
           <div class="liquid-glass-card rounded-[32px] p-6 space-y-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-forest-muted">
+                Новый сбор
+              </span>
+              <span class="text-[11px] font-bold text-forest-dark bg-white/60 px-2.5 py-0.5 rounded-full">
+                Бесплатно
+              </span>
+            </div>
+
             <div>
               <label class="block text-xs font-bold text-forest-muted mb-1.5">Куда едем или что празднуем?</label>
               <input type="text" id="new-room-title" placeholder="например: Кемпинг у озера, Поездка в горы, Дача"
@@ -210,13 +244,13 @@ export const App = {
               </div>
             </div>
 
-            <button id="btn-create-room" class="w-full py-4 px-4 btn-forest-primary rounded-2xl text-sm font-bold tracking-tight flex items-center justify-center gap-2">
+            <button id="btn-create-room" class="w-full py-4 px-4 btn-forest-primary rounded-2xl text-sm font-bold tracking-tight flex items-center justify-center gap-2 shadow-lg">
               <span>Создать сбор</span>
               <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
           </div>
 
-          <!-- Недавние сборы -->
+          <!-- Недавние события -->
           ${recent.length > 0 ? `
             <div class="space-y-2.5 pt-1">
               <h3 class="text-xs font-bold uppercase tracking-wider text-forest-muted px-1">Недавние события</h3>
