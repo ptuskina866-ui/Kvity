@@ -156,19 +156,36 @@ export const App = {
       <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
         <div class="space-y-6 pt-2">
           
-          <!-- Фирменный логотип «Квиты» -->
-          <div class="flex flex-col items-center justify-center pt-3 pb-1 text-center">
-            <img src="images/logo.webp" alt="Квиты" class="w-60 sm:w-72 max-w-full h-auto drop-shadow-md select-none">
+          <!-- Чистый текстовый логотип бренда -->
+          <div class="flex items-center justify-center pt-2 pb-1 gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-forest-dark flex items-center justify-center shadow-xs">
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
+              </svg>
+            </div>
+            <span class="text-xl font-black tracking-tight text-forest-dark">Квиты</span>
           </div>
 
-          <!-- Главный типографический блок с любимой фразой (кристально белый контраст) -->
+          <!-- Главный типографический блок (насыщенный темно-зеленый в цвет кнопки) -->
           <div class="pt-1 px-1 text-center">
-            <h1 class="text-3xl font-black text-white leading-[1.18] tracking-tight drop-shadow-sm">
-              Разделите расходы,<br><span class="text-white/85 font-extrabold">сохраните дружбу.</span>
+            <h1 class="text-3xl font-black text-forest-dark leading-[1.18] tracking-tight">
+              Разделите расходы,<br><span class="text-forest-muted">сохраните дружбу.</span>
             </h1>
-            <p class="text-xs text-white/80 font-medium mt-2.5 leading-relaxed max-w-xs mx-auto drop-shadow-xs">
+            <p class="text-xs text-forest-muted font-semibold mt-2.5 leading-relaxed max-w-xs mx-auto">
               Быстрый расчет чеков, счетов и долгов для поездок и вечеринок без обязательной регистрации.
             </p>
+          </div>
+
+          <!-- Парящие интерактивные плашки досуга: Шашлыки и Бар -->
+          <div class="flex items-center justify-center gap-2.5 py-1">
+            <div class="liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-sm animate-float">
+              <img src="images/kebab.webp" alt="Шашлыки" class="w-5 h-5 object-contain">
+              <span class="text-xs font-bold text-forest-dark">Шашлыки • 4 200 ₽</span>
+            </div>
+            <div class="liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-sm animate-float-delayed">
+              <img src="images/bar.webp" alt="Бар" class="w-5 h-5 object-contain">
+              <span class="text-xs font-bold text-forest-dark">Бар • 1 850 ₽</span>
+            </div>
           </div>
 
           <!-- Форма создания сбора в ультралегком Liquid Glass -->
