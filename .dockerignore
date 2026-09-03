@@ -1,0 +1,6 @@
+.git
+.gitignore
+tests/
+*.sqlite
+database/kvity.sqlite
+.system_generated/

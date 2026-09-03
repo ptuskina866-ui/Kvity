@@ -1,0 +1,130 @@
+/* Дизайн-система «Квиты» в стиле Apple (Clean, Light, Minimalist iOS Design) */
+
+:root {
+  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', -apple-system, sans-serif;
+  
+  /* Светлая чистая палитра в стиле Apple / iOS */
+  --bg-main: #f6f8fa;
+  --bg-card: #ffffff;
+  --bg-card-subtle: #f8fafc;
+  --bg-input: #f1f4f8;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  
+  --border-light: rgba(0, 0, 0, 0.06);
+  --border-focus: #0f172a;
+
+  --accent-black: #0f172a;
+  --accent-primary: #4f46e5;
+  --accent-success: #10b981;
+  --accent-danger: #f43f5e;
+
+  /* Поддержка Telegram темы с мягким фоллбеком на светлый Apple-стиль */
+  --tg-theme-bg-color: var(--bg-main);
+  --tg-theme-secondary-bg-color: var(--bg-card);
+  --tg-theme-text-color: var(--text-primary);
+  --tg-theme-hint-color: var(--text-secondary);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-system);
+  letter-spacing: -0.015em;
+  user-select: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overscroll-behavior-y: none;
+}
+
+/* Выделение текста в полях ввода и реквизитах */
+input, textarea, .selectable {
+  user-select: text;
+}
+
+/* Apple iOS стиль карточек: идеальный белый цвет, деликатные тени и граница */
+.apple-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+}
+
+.apple-card-hover:active {
+  transform: scale(0.99);
+  transition: transform 0.15s ease;
+}
+
+/* Apple Glass / Frosted Blur эффект */
+.apple-glass {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.apple-dock {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -8px 24px -4px rgba(15, 23, 42, 0.05);
+}
+
+/* iOS Segmented Control (переключатель вкладок) */
+.ios-segment-bg {
+  background-color: rgba(148, 163, 184, 0.15);
+}
+
+.ios-segment-active {
+  background-color: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Плавные анимации модалок и выпадающих списков */
+@keyframes appleSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-apple-sheet {
+  animation: appleSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Тактильный отклик кнопок */
+.btn-press:active {
+  transform: scale(0.97);
+  transition: transform 0.12s ease;
+}
+
+/* Скрытие полосы прокрутки */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Полоска-индикатор для свайпа модалки вниз (drag handle) */
+.sheet-drag-handle {
+  width: 38px;
+  height: 4px;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  margin: 0 auto 12px auto;
+}

@@ -1,0 +1,5 @@
+database/kvity.sqlite
+database/*.sqlite
+.env
+.DS_Store
+Thumbs.db
