@@ -156,50 +156,28 @@ export const App = {
       <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
         <div class="space-y-6 pt-2">
           
-          <!-- Шапка с брендом -->
-          <div class="flex items-center justify-between px-1">
-            <div class="flex items-center gap-2.5">
-              <div class="w-10 h-10 rounded-2xl bg-forest-dark flex items-center justify-center shadow-lg shadow-forest-dark/15">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-              </div>
-              <span class="text-xl font-black tracking-tight text-forest-dark">Квиты</span>
+          <!-- Красивый центрированный логотип в природной стилистике -->
+          <div class="flex flex-col items-center justify-center pt-2 pb-1 text-center">
+            <div class="w-14 h-14 rounded-3xl liquid-glass flex items-center justify-center shadow-lg border border-white mb-2">
+              <svg class="w-8 h-8 text-forest-dark" viewBox="0 0 32 32" fill="none">
+                <rect x="4" y="4" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.9"/>
+                <rect x="18" y="4" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.6"/>
+                <rect x="4" y="18" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.6"/>
+                <rect x="18" y="18" width="10" height="10" rx="3.5" fill="#0f2922" fill-opacity="0.9"/>
+                <circle cx="16" cy="16" r="3.5" fill="#ffffff" stroke="#0f2922" stroke-width="2"/>
+              </svg>
             </div>
+            <span class="text-base font-black tracking-[0.25em] text-forest-dark uppercase">КВИТЫ</span>
           </div>
 
-          <!-- Главный типографический блок с любимой фразой -->
-          <div class="pt-2 px-1">
+          <!-- Главный типографический блок с любимой фразой (центрированный) -->
+          <div class="pt-1 px-1 text-center">
             <h1 class="text-3xl font-black text-forest-dark leading-[1.18] tracking-tight">
               Разделите расходы,<br><span class="text-forest-muted">сохраните дружбу.</span>
             </h1>
-            <p class="text-xs text-forest-muted font-medium mt-2 leading-relaxed">
+            <p class="text-xs text-forest-muted font-medium mt-2 leading-relaxed max-w-xs mx-auto">
               Быстрый расчет чеков, счетов и долгов для поездок и вечеринок без обязательной регистрации.
             </p>
-          </div>
-
-          <!-- Парящая 3D композиция (Interactive Floating 3D Elements) -->
-          <div class="relative h-44 w-full flex items-center justify-center select-none pointer-events-none">
-            
-            <!-- Парящая 3D палатка (из референса Tenda Greeniest) -->
-            <div class="absolute left-3 top-2 w-32 h-32 animate-float z-10">
-              <img src="images/tent.jpg" alt="Палатка" class="w-full h-full object-contain blend-multiply drop-shadow-md">
-            </div>
-
-            <!-- Парящий 3D чайник для костра -->
-            <div class="absolute right-4 bottom-1 w-24 h-24 animate-float-delayed z-10">
-              <img src="images/kettle.jpg" alt="Кофе на костре" class="w-full h-full object-contain blend-multiply drop-shadow-md">
-            </div>
-
-            <!-- Парящий интерактивный бейдж расхода 1 -->
-            <div class="absolute right-3 top-4 liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-lg animate-float-delayed z-20 pointer-events-auto">
-              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-              <span class="text-xs font-black text-forest-dark">Палатки • 3 200 ₽</span>
-            </div>
-
-            <!-- Парящий интерактивный бейдж расхода 2 -->
-            <div class="absolute left-4 bottom-3 liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-lg animate-float z-20 pointer-events-auto">
-              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-              <span class="text-xs font-black text-forest-dark">Кофе и завтрак • 850 ₽</span>
-            </div>
           </div>
 
           <!-- Форма создания сбора в ультралегком Liquid Glass -->
