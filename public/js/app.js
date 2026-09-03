@@ -164,8 +164,6 @@ export const App = {
               </div>
               <span class="text-xl font-black tracking-tight text-forest-dark">Квиты</span>
             </div>
-
-            <span class="text-[11px] font-bold text-forest-dark bg-white/70 px-3 py-1 rounded-full border border-white shadow-xs">Zero-Login</span>
           </div>
 
           <!-- Главный типографический блок с любимой фразой -->
@@ -206,12 +204,9 @@ export const App = {
 
           <!-- Форма создания сбора в ультралегком Liquid Glass -->
           <div class="liquid-glass-card rounded-[32px] p-6 space-y-5">
-            <div class="flex items-center justify-between">
+            <div>
               <span class="text-xs font-black uppercase tracking-wider text-forest-muted">
                 Новый сбор
-              </span>
-              <span class="text-[11px] font-bold text-forest-dark bg-white/60 px-2.5 py-0.5 rounded-full">
-                Бесплатно
               </span>
             </div>
 
@@ -269,10 +264,6 @@ export const App = {
               </div>
             </div>
           ` : ''}
-        </div>
-
-        <div class="text-center text-xs text-forest-muted/70 font-medium pt-8">
-          «Квиты» • PWA & Telegram Mini App • Cloudflare D1
         </div>
       </div>
     `;
