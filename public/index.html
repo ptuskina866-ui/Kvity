@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Квиты — совместные расходы и деление чеков</title>
-
-  <!-- PWA и мета-теги Apple iOS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Квиты — совместные расходы и деление счетов</title>
+  
+  <!-- PWA и мета-теги -->
   <meta name="description" content="Сервис совместных расходов и деления чеков без регистрации (Zero-login)">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#f8f6f0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Квиты">
@@ -27,16 +25,15 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Inter', 'sans-serif'],
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Inter', 'sans-serif'],
           },
           colors: {
-            ios: {
-              bg: '#f6f8fa',
-              card: '#ffffff',
-              subtle: '#f1f4f8',
-              dark: '#0f172a',
-              muted: '#64748b',
-              border: 'rgba(0, 0, 0, 0.06)'
+            finans: {
+              yellow: '#fed843',
+              yellowHover: '#facc15',
+              dark: '#111827',
+              gray: '#6b7280',
+              light: '#f8f6f0'
             }
           }
         }
@@ -44,16 +41,14 @@
     }
   </script>
 
-  <!-- Стили Apple UI -->
+  <!-- Стили Liquid Glass -->
   <link rel="stylesheet" href="css/app.css">
 </head>
 
-<body
-  class="bg-[#f6f8fa] text-slate-900 antialiased min-h-screen flex flex-col justify-between selection:bg-slate-900 selection:text-white">
+<body class="antialiased min-h-screen flex flex-col justify-between selection:bg-yellow-300 selection:text-slate-900">
 
-  <!-- Toast-уведомления (iOS стиль с легкой тенью и размытием) -->
-  <div id="toast-container"
-    class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
+  <!-- Toast-уведомления (Liquid Glass стиль) -->
+  <div id="toast-container" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
 
   <!-- Главная страница (Создание сбора) -->
   <main id="view-home" class="flex-1"></main>
@@ -62,48 +57,36 @@
   <main id="view-room" class="flex-1 hidden pb-36">
     <!-- Индикатор загрузки -->
     <div id="room-loading" class="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
-      <div class="w-9 h-9 border-3 border-slate-200 border-t-slate-900 rounded-full animate-spin"></div>
-      <p class="text-xs text-slate-500 font-medium tracking-wide">Загрузка сбора...</p>
+      <div class="w-10 h-10 border-3 border-yellow-400/30 border-t-yellow-400 rounded-full animate-spin"></div>
+      <p class="text-xs text-slate-500 font-medium tracking-wide">Синхронизация данных...</p>
     </div>
 
     <!-- Контент комнаты -->
-    <div id="room-content" class="hidden max-w-md mx-auto p-4 space-y-4">
-      <!-- Навигационная панель iOS -->
-      <header class="flex items-center justify-between pt-2 pb-1 px-1">
-        <a href="#"
-          class="w-10 h-10 rounded-full bg-white border border-slate-200/80 shadow-sm flex items-center justify-center text-slate-700 hover:text-slate-900 btn-press transition"
-          title="На главную">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7" />
-          </svg>
+    <div id="room-content" class="hidden max-w-md mx-auto p-4 space-y-5">
+      <!-- Навигационная панель -->
+      <header class="flex items-center justify-between pt-1">
+        <a href="#" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-slate-800 hover:text-slate-950 transition active:scale-95" title="На главную">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </a>
 
-        <div class="text-center flex-1 px-2 min-w-0">
-          <h1 id="room-title" class="text-base font-bold text-slate-900 truncate">Название сбора</h1>
-          <button id="btn-open-participants"
-            class="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition">
-            <span id="room-participants-count">0 участников</span>
-            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
-            <span class="text-[11px] text-indigo-600 font-medium">Реквизиты</span>
-          </button>
+        <div class="text-center flex-1 px-3 min-w-0">
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Событие</div>
+          <h1 id="room-title" class="text-base font-extrabold text-slate-900 truncate">Название сбора</h1>
         </div>
 
-        <button id="btn-share-room"
-          class="w-10 h-10 rounded-full bg-white border border-slate-200/80 shadow-sm flex items-center justify-center text-slate-700 hover:text-slate-900 btn-press transition"
-          title="Поделиться ссылкой">
-          <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-          </svg>
+        <button id="btn-share-room" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-slate-800 hover:text-slate-950 transition active:scale-95" title="Поделиться">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
         </button>
       </header>
 
-      <!-- Карточка баланса в стиле Apple Wallet (как на референсе) -->
-      <section class="apple-card rounded-[28px] p-6 space-y-4">
+      <!-- Карточка баланса в стиле Neobank (как на референсе Finans) -->
+      <section class="liquid-glass-card rounded-[32px] p-6 space-y-5">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Общие расходы</span>
-          <span id="room-currency-badge"
-            class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-bold tracking-tight">RUB</span>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Общие расходы</span>
+          </div>
+          <span id="room-currency-badge" class="px-3 py-1 rounded-full bg-slate-100/80 border border-slate-200/60 text-slate-800 text-xs font-black tracking-tight">RUB</span>
         </div>
 
         <div>
@@ -116,136 +99,125 @@
           </div>
         </div>
 
-        <!-- Переключатель вкладок (iOS Segmented Control) -->
-        <div class="ios-segment-bg p-1 rounded-2xl flex gap-1">
-          <button id="tab-btn-expenses" class="flex-1 py-2 text-xs font-bold rounded-xl ios-segment-active transition">
+        <!-- Быстрые действия (Quick Actions как на референсе) -->
+        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
+          <button id="btn-open-participants" class="py-2.5 px-3 rounded-2xl liquid-glass flex items-center justify-center gap-2 text-xs font-bold text-slate-800 hover:bg-white transition active:scale-95">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span id="room-participants-count">0 участников</span>
+          </button>
+          
+          <button id="btn-generate-chat-report" class="py-2.5 px-3 rounded-2xl liquid-glass flex items-center justify-center gap-2 text-xs font-bold text-slate-800 hover:bg-white transition active:scale-95">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            <span>Отчет для чата</span>
+          </button>
+        </div>
+
+        <!-- Переключатель вкладок (Сегмент) -->
+        <div class="segment-container flex gap-1">
+          <button id="tab-btn-expenses" class="flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition">
             Расходы
           </button>
-          <button id="tab-btn-balances"
-            class="flex-1 py-2 text-xs font-bold rounded-xl text-slate-500 hover:text-slate-800 transition">
-            Баланс и итоги
+          <button id="tab-btn-balances" class="flex-1 py-2.5 text-xs font-bold rounded-2xl text-slate-500 hover:text-slate-900 transition">
+            Баланс и переводы
           </button>
         </div>
       </section>
 
-      <!-- Вкладка 1: Список расходов -->
+      <!-- Вкладка 1: Список расходов (Transaction из референса) -->
       <section id="tab-expenses-content" class="space-y-3">
         <div class="flex items-center justify-between px-1">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">История расходов</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400">История операций</h2>
         </div>
         <div id="expenses-list-container" class="space-y-2.5"></div>
       </section>
 
-      <!-- Вкладка 2: Балансы и взаиморасчеты -->
+      <!-- Вкладка 2: Балансы и взаиморасчеты (Transfer из референса) -->
       <section id="tab-balances-content" class="space-y-4 hidden">
-        <!-- Блок переводов (Кто кому) -->
         <div class="space-y-2.5">
           <div class="flex items-center justify-between px-1">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Кто кому переводит</h2>
-            <span
-              class="text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">Минимум
-              транзакций</span>
+            <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400">Кто кому переводит</h2>
+            <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-full border border-emerald-200/60">Минимум переводов</span>
           </div>
           <div id="settlement-transactions-container" class="space-y-2.5"></div>
         </div>
 
-        <!-- Кнопка формирования отчета для чата (iOS Dark Apple Button) -->
-        <button id="btn-generate-chat-report"
-          class="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-2xl shadow-sm btn-press transition flex items-center justify-center gap-2 text-xs tracking-tight">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-          </svg>
-          <span>Сформировать отчет для чата Telegram</span>
-        </button>
-
         <!-- Чистые балансы участников -->
         <div class="space-y-2 pt-2">
-          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1">Баланс участников</h2>
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 px-1">Баланс участников</h2>
           <div id="net-balances-container" class="space-y-2"></div>
         </div>
       </section>
     </div>
 
-    <!-- Плавающая нижняя панель (Apple Floating Pill Dock) -->
-    <nav class="fixed bottom-6 left-0 right-0 px-4 max-w-md mx-auto z-30 pointer-events-none flex justify-center">
-      <button id="btn-open-add-expense"
-        class="pointer-events-auto px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-full shadow-xl shadow-slate-900/20 btn-press transition flex items-center gap-2.5 text-sm">
-        <span class="text-lg leading-none font-light">+</span>
+    <!-- Плавающая нижняя панель с фирменной желтой кнопкой (как на референсе) -->
+    <div class="floating-dock-wrapper">
+      <button id="btn-open-add-expense" class="floating-action-btn px-7 py-4 rounded-full font-black flex items-center gap-2.5 text-sm tracking-tight">
+        <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
         <span>Добавить расход</span>
       </button>
-    </nav>
+    </div>
   </main>
 
-  <!-- Модальное окно: Добавить расход (Apple Bottom Sheet) -->
-  <div id="modal-add-expense"
-    class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-slate-900/40 backdrop-blur-md">
-    <div
-      class="apple-card bg-white border-t sm:border border-slate-100 rounded-t-[32px] sm:rounded-[32px] w-full max-w-md p-6 space-y-5 animate-apple-sheet max-h-[90vh] overflow-y-auto">
-      <div class="sheet-drag-handle"></div>
+  <!-- Модальное окно: Добавить расход (Liquid Glass Sheet) -->
+  <div id="modal-add-expense" class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-slate-900/35 backdrop-blur-md">
+    <div class="liquid-glass-card border-t sm:border border-white/80 rounded-t-[36px] sm:rounded-[36px] w-full max-w-md p-6 space-y-5 animate-liquid-sheet max-h-[92vh] overflow-y-auto">
+      <div class="w-10 h-1.5 bg-slate-300/80 rounded-full mx-auto mb-1"></div>
 
       <div class="flex items-center justify-between pb-1">
-        <h3 class="text-lg font-bold text-slate-900">Новый расход</h3>
-        <button
-          class="btn-close-modal w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-800 text-base font-bold transition">&times;</button>
+        <h3 class="text-lg font-black text-slate-900">Новый расход</h3>
+        <button class="btn-close-modal w-9 h-9 rounded-full liquid-glass flex items-center justify-center text-slate-600 hover:text-slate-950 text-base font-bold transition">&times;</button>
       </div>
 
       <div class="space-y-4">
-        <!-- Поле суммы крупно (как в Apple Pay / Переводах) -->
-        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-          <label class="block text-xs font-medium text-slate-400 mb-1">Сумма расхода</label>
+        <!-- Поле суммы крупно (Add Money стиль из референса) -->
+        <div class="p-5 rounded-3xl liquid-glass text-center border border-white/90">
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Сумма расхода</label>
           <input type="number" step="0.01" min="0" id="expense-amount" placeholder="0"
-            class="w-full bg-transparent text-center text-4xl font-black text-slate-900 placeholder-slate-300 focus:outline-none transition tracking-tight">
+            class="w-full bg-transparent text-center text-4xl font-black text-slate-900 placeholder-slate-300 focus:outline-none tracking-tight">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5">На что потрачено?</label>
-          <input type="text" id="expense-title" placeholder="например: Шашлыки, Такси, Отель"
-            class="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 transition">
+          <label class="block text-xs font-bold text-slate-600 mb-1.5">На что потрачено?</label>
+          <input type="text" id="expense-title" placeholder="например: Ужин в ресторане, Такси, Отель"
+            class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none transition">
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5">Кто оплатил?</label>
+          <label class="block text-xs font-bold text-slate-600 mb-1.5">Кто оплатил?</label>
           <div class="relative">
             <select id="expense-payer-select"
-              class="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-3 text-sm font-medium text-slate-900 focus:outline-none focus:border-slate-900 transition appearance-none"></select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
+              class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-bold text-slate-900 focus:outline-none transition appearance-none"></select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
             </div>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5">На кого делить?</label>
-          <div id="expense-splits-container" class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/80"></div>
+          <label class="block text-xs font-bold text-slate-600 mb-1.5">На кого делить?</label>
+          <div id="expense-splits-container" class="rounded-2xl liquid-glass p-3.5 border border-white/80"></div>
         </div>
       </div>
 
       <div class="pt-2">
-        <button id="btn-save-expense"
-          class="w-full py-4 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-sm btn-press transition text-sm">
+        <button id="btn-save-expense" class="w-full py-4 px-4 btn-finans-yellow rounded-2xl text-sm font-black tracking-tight">
           Сохранить расход
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Модальное окно: Участники и реквизиты (Apple Bottom Sheet) -->
-  <div id="modal-participants"
-    class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-slate-900/40 backdrop-blur-md">
-    <div
-      class="apple-card bg-white border-t sm:border border-slate-100 rounded-t-[32px] sm:rounded-[32px] w-full max-w-md p-6 space-y-5 animate-apple-sheet max-h-[90vh] overflow-y-auto">
-      <div class="sheet-drag-handle"></div>
+  <!-- Модальное окно: Участники и реквизиты (Liquid Glass Sheet) -->
+  <div id="modal-participants" class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-slate-900/35 backdrop-blur-md">
+    <div class="liquid-glass-card border-t sm:border border-white/80 rounded-t-[36px] sm:rounded-[36px] w-full max-w-md p-6 space-y-5 animate-liquid-sheet max-h-[92vh] overflow-y-auto">
+      <div class="w-10 h-1.5 bg-slate-300/80 rounded-full mx-auto mb-1"></div>
 
       <div class="flex items-center justify-between pb-1">
         <div>
-          <h3 class="text-lg font-bold text-slate-900">Участники и реквизиты</h3>
+          <h3 class="text-lg font-black text-slate-900">Участники и реквизиты</h3>
           <p class="text-xs text-slate-400 mt-0.5">Укажите карту или телефон для СБП / ЕРИП</p>
         </div>
-        <button
-          class="btn-close-modal w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-800 text-base font-bold transition">&times;</button>
+        <button class="btn-close-modal w-9 h-9 rounded-full liquid-glass flex items-center justify-center text-slate-600 hover:text-slate-950 text-base font-bold transition">&times;</button>
       </div>
 
       <div id="participants-manage-container" class="space-y-4"></div>
@@ -255,5 +227,4 @@
   <!-- Главный скрипт логики -->
   <script type="module" src="js/app.js"></script>
 </body>
-
 </html>

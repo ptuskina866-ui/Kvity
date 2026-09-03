@@ -9,9 +9,9 @@ function showToast(message, duration = 2500) {
   if (!container) return;
 
   const toast = document.createElement('div');
-  toast.className = 'apple-card text-slate-900 px-4 py-3 rounded-2xl shadow-lg border border-slate-200/80 flex items-center gap-3 animate-apple-sheet text-xs font-semibold';
+  toast.className = 'liquid-glass-card text-slate-900 px-4 py-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 animate-liquid-sheet text-xs font-bold';
   toast.innerHTML = `
-    <span class="w-2 h-2 rounded-full bg-slate-900"></span>
+    <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping"></span>
     <span class="flex-1">${message}</span>
   `;
   container.appendChild(toast);
@@ -72,7 +72,7 @@ function navigateHome() {
   window.location.hash = '';
 }
 
-// --- ОСНОВНАЯ ЛОГИКА APP ---
+// --- ОСНОВНОЙ МОДУЛЬ APP ---
 
 export const App = {
   async init() {
@@ -153,7 +153,7 @@ export const App = {
     }
   },
 
-  // --- ГЛАВНАЯ СТРАНИЦА (ОНБОРДИНГ В СТИЛЕ APPLE) ---
+  // --- ГЛАВНАЯ СТРАНИЦА В СТИЛЕ FINANS ИЗ РЕФЕРЕНСА ---
 
   renderHomeView() {
     const container = document.getElementById('view-home');
@@ -162,37 +162,44 @@ export const App = {
 
     container.innerHTML = `
       <div class="max-w-md mx-auto p-5 pb-16 flex flex-col min-h-screen justify-between">
-        <div class="space-y-6 pt-3">
-          <!-- Логотип и заголовок в стиле Apple -->
-          <div class="text-center pt-5 pb-1">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-slate-900 shadow-md shadow-slate-900/10 mb-3.5">
-              <span class="text-3xl">🌸</span>
+        <div class="space-y-6 pt-2">
+          <!-- Логотип и промо-блок в стиле Neobank Finans -->
+          <div class="pt-4 pb-2">
+            <div class="flex items-center gap-2.5 mb-5">
+              <div class="w-10 h-10 rounded-2xl bg-slate-950 flex items-center justify-center shadow-lg shadow-black/10">
+                <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+              </div>
+              <span class="text-xl font-black tracking-tight text-slate-900">Квиты</span>
             </div>
-            <h1 class="text-3xl font-black tracking-tight text-slate-900">
-              Квиты
+
+            <h1 class="text-3xl font-black tracking-tight text-slate-900 leading-tight">
+              Разделите расходы,<br><span class="text-slate-500">сохраните дружбу.</span>
             </h1>
-            <p class="text-xs text-slate-500 font-medium mt-1">
-              Совместные расходы и деление чеков без регистрации
+            <p class="text-xs text-slate-500 font-medium mt-2 leading-relaxed">
+              Быстрый расчет чеков, счетов и долгов для поездок и вечеринок без обязательной регистрации.
             </p>
           </div>
 
-          <!-- Форма создания сбора (Чистая Apple-карточка) -->
-          <div class="apple-card rounded-[32px] p-6 space-y-5">
-            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <span>⚡</span> Новый сбор
-            </h2>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1.5">Название события</label>
-              <input type="text" id="new-room-title" placeholder="например: Шашлыки, Бар, Поездка в горы"
-                class="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 transition">
+          <!-- Форма создания сбора в стиле Liquid Glass -->
+          <div class="liquid-glass-card rounded-[32px] p-6 space-y-5">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
+                Новое событие
+              </h2>
+              <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-full border border-emerald-200/50">Zero-Login</span>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1.5">Основная валюта</label>
+              <label class="block text-xs font-bold text-slate-600 mb-1.5">Название сбора</label>
+              <input type="text" id="new-room-title" placeholder="например: Поездка в горы, Бар, Пицца"
+                class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-medium text-slate-900 placeholder-slate-400 focus:outline-none transition">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1.5">Основная валюта</label>
               <div class="grid grid-cols-5 gap-1.5" id="currency-selector">
                 ${['RUB', 'BYN', 'KZT', 'USD', 'EUR'].map(c => `
-                  <button type="button" data-curr="${c}" class="curr-btn py-2 text-xs font-bold rounded-xl transition ${c === 'RUB' ? 'bg-slate-900 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
+                  <button type="button" data-curr="${c}" class="curr-btn py-2.5 text-xs font-black rounded-2xl transition ${c === 'RUB' ? 'bg-slate-950 text-white shadow-md' : 'liquid-glass text-slate-700 hover:bg-white'}">
                     ${c}
                   </button>
                 `).join('')}
@@ -201,34 +208,36 @@ export const App = {
 
             <div>
               <div class="flex justify-between items-center mb-1.5">
-                <label class="text-xs font-semibold text-slate-500">Участники (через Enter или запятую)</label>
-                ${tgUser ? `<button id="btn-add-tg-user" class="text-xs font-semibold text-slate-900 hover:underline">+ Я (${tgUser})</button>` : ''}
+                <label class="text-xs font-bold text-slate-600">Участники сбора</label>
+                ${tgUser ? `<button id="btn-add-tg-user" class="text-xs font-extrabold text-slate-950 hover:underline">+ Я (${tgUser})</button>` : ''}
               </div>
               
-              <div class="flex flex-wrap gap-1.5 p-2 bg-slate-50 border border-slate-200/80 rounded-2xl min-h-[50px] items-center" id="tags-container">
+              <div class="flex flex-wrap gap-1.5 p-2 liquid-glass-input rounded-2xl min-h-[52px] items-center" id="tags-container">
                 <input type="text" id="participant-input" placeholder="Имя и Enter..."
-                  class="bg-transparent border-none text-slate-900 text-sm focus:outline-none px-2 py-1 flex-1 min-w-[110px]">
+                  class="bg-transparent border-none text-slate-900 text-sm font-medium focus:outline-none px-2.5 py-1 flex-1 min-w-[110px]">
               </div>
             </div>
 
-            <button id="btn-create-room" class="w-full py-4 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-md shadow-slate-900/10 btn-press transition flex items-center justify-center gap-2 text-sm tracking-tight">
+            <button id="btn-create-room" class="w-full py-4 px-4 btn-finans-yellow rounded-2xl text-sm font-black tracking-tight flex items-center justify-center gap-2">
               <span>Создать сбор</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              <svg class="w-4 h-4 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
           </div>
 
           <!-- Список недавних сборов -->
           ${recent.length > 0 ? `
-            <div class="space-y-2 pt-1">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1">Недавние сборы</h3>
+            <div class="space-y-2.5 pt-1">
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 px-1">Недавние сборы</h3>
               <div class="space-y-2">
                 ${recent.map(r => `
-                  <a href="#/r/${r.slug}" class="apple-card p-4 rounded-2xl flex items-center justify-between hover:border-slate-300 transition group apple-card-hover">
+                  <a href="#/r/${r.slug}" class="liquid-glass p-4 rounded-2xl flex items-center justify-between hover:bg-white transition group">
                     <div>
-                      <div class="font-bold text-slate-900 text-sm">${r.title}</div>
+                      <div class="font-extrabold text-slate-900 text-sm">${r.title}</div>
                       <div class="text-xs text-slate-400 mt-0.5">Токен: ${r.slug} • Валюта: ${r.base_currency}</div>
                     </div>
-                    <span class="text-slate-300 group-hover:text-slate-800 transition font-bold">➔</span>
+                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 group-hover:bg-yellow-400 group-hover:text-slate-950 transition">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7m0 0H7m10 0v10"/></svg>
+                    </div>
                   </a>
                 `).join('')}
               </div>
@@ -237,7 +246,7 @@ export const App = {
         </div>
 
         <div class="text-center text-xs text-slate-400 font-medium pt-8">
-          «Квиты» • Без регистрации • PWA & Telegram WebApp
+          «Квиты» • PWA & Telegram Mini App • Cloudflare D1
         </div>
       </div>
     `;
@@ -249,15 +258,15 @@ export const App = {
     let selectedCurrency = 'RUB';
     const participants = [];
 
-    // Выбор валюты в стиле Apple
+    // Выбор валюты
     document.querySelectorAll('.curr-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         TMA.haptic.selection();
         selectedCurrency = btn.dataset.curr;
         document.querySelectorAll('.curr-btn').forEach(b => {
-          b.className = 'curr-btn py-2 text-xs font-bold rounded-xl transition bg-slate-100 text-slate-600 hover:bg-slate-200';
+          b.className = 'curr-btn py-2.5 text-xs font-black rounded-2xl transition liquid-glass text-slate-700 hover:bg-white';
         });
-        btn.className = 'curr-btn py-2 text-xs font-bold rounded-xl transition bg-slate-900 text-white shadow-sm';
+        btn.className = 'curr-btn py-2.5 text-xs font-black rounded-2xl transition bg-slate-950 text-white shadow-md';
       });
     });
 
@@ -268,10 +277,10 @@ export const App = {
       tagsContainer.querySelectorAll('.participant-tag').forEach(t => t.remove());
       participants.forEach((name, idx) => {
         const tag = document.createElement('span');
-        tag.className = 'participant-tag inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white text-slate-800 border border-slate-200/80 shadow-2xs text-xs font-semibold';
+        tag.className = 'participant-tag inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-slate-900 border border-slate-200/80 shadow-sm text-xs font-bold';
         tag.innerHTML = `
           <span>${name}</span>
-          <button type="button" data-idx="${idx}" class="remove-tag text-slate-400 hover:text-slate-800">&times;</button>
+          <button type="button" data-idx="${idx}" class="remove-tag text-slate-400 hover:text-slate-950 font-bold">&times;</button>
         `;
         tagsContainer.insertBefore(tag, input);
       });
@@ -294,7 +303,6 @@ export const App = {
       }
     };
 
-    // Добавление текущего пользователя Telegram
     document.getElementById('btn-add-tg-user')?.addEventListener('click', () => {
       const tgName = TMA.getUserFirstName();
       if (tgName) {
@@ -314,7 +322,6 @@ export const App = {
       }
     });
 
-    // Нажатие на кнопку Создать сбор
     document.getElementById('btn-create-room')?.addEventListener('click', async () => {
       const title = document.getElementById('new-room-title').value.trim();
       if (input.value.trim()) {
@@ -421,18 +428,18 @@ export const App = {
     if (tab === 'expenses') {
       tabExpenses.classList.remove('hidden');
       tabBalances.classList.add('hidden');
-      btnExp.className = 'flex-1 py-2 text-xs font-bold rounded-xl ios-segment-active transition';
-      btnBal.className = 'flex-1 py-2 text-xs font-bold rounded-xl text-slate-500 hover:text-slate-800 transition';
+      btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition';
+      btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-slate-500 hover:text-slate-900 transition';
     } else {
       tabExpenses.classList.add('hidden');
       tabBalances.classList.remove('hidden');
-      btnExp.className = 'flex-1 py-2 text-xs font-bold rounded-xl text-slate-500 hover:text-slate-800 transition';
-      btnBal.className = 'flex-1 py-2 text-xs font-bold rounded-xl ios-segment-active transition';
+      btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-slate-500 hover:text-slate-900 transition';
+      btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition';
       this.renderBalancesTab();
     }
   },
 
-  // --- ВКЛАДКА 1: РАСХОДЫ (В СТИЛЕ RECENT TRANSACTIONS ИЗ РЕФЕРЕНСА) ---
+  // --- ВКЛАДКА 1: РАСХОДЫ (RECENT TRANSACTION ИЗ РЕФЕРЕНСА) ---
 
   renderExpensesTab() {
     const room = State.currentRoom;
@@ -443,13 +450,13 @@ export const App = {
 
     if (expenses.length === 0) {
       container.innerHTML = `
-        <div class="apple-card rounded-[28px] p-8 text-center space-y-3 my-4">
-          <div class="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center text-2xl mx-auto">
-            🧾
+        <div class="liquid-glass-card rounded-[32px] p-8 text-center space-y-3 my-4">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100/70 text-slate-900 flex items-center justify-center mx-auto shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           </div>
-          <h3 class="text-base font-bold text-slate-900">Трат пока нет</h3>
+          <h3 class="text-base font-extrabold text-slate-900">Операций пока нет</h3>
           <p class="text-xs text-slate-400 max-w-xs mx-auto">
-            Нажмите кнопку «+ Добавить расход» внизу экрана, чтобы записать чек
+            Нажмите «+ Добавить расход» внизу экрана, чтобы записать оплату или общий чек
           </p>
         </div>
       `;
@@ -463,25 +470,22 @@ export const App = {
         month: 'short'
       }) : '';
 
-      // Буква для аватара транзакции
-      const firstLetter = (e.title || 'Ч')[0].toUpperCase();
-
       return `
-        <div class="apple-card rounded-2xl p-4 flex items-center justify-between gap-3 hover:border-slate-300 transition group">
+        <div class="liquid-glass rounded-2xl p-4 flex items-center justify-between gap-3.5 hover:bg-white transition group">
           <div class="flex items-center gap-3.5 flex-1 min-w-0">
-            <!-- Круглый аватар расхода как в iOS/Apple -->
-            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-700 text-sm shrink-0 border border-slate-200/50">
-              ${firstLetter}
+            <!-- Стильная иконка расхода со стрелкой как в референсе Finans -->
+            <div class="w-11 h-11 rounded-2xl bg-amber-100/80 text-slate-950 flex items-center justify-center shrink-0 border border-amber-200/50 shadow-xs">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7m0 0H7m10 0v10"/></svg>
             </div>
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2">
-                <span class="font-bold text-slate-900 text-sm truncate">${e.title}</span>
-                ${formattedDate ? `<span class="text-[11px] text-slate-400 font-medium">${formattedDate}</span>` : ''}
+                <span class="font-extrabold text-slate-900 text-sm truncate">${e.title}</span>
+                ${formattedDate ? `<span class="text-[11px] text-slate-400 font-semibold">${formattedDate}</span>` : ''}
               </div>
               <div class="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5 flex-wrap">
                 <span>Оплатил:</span>
-                <span class="font-semibold text-slate-800">${e.payer_name}</span>
+                <span class="font-bold text-slate-800">${e.payer_name}</span>
                 <span class="text-slate-300">•</span>
                 <span class="text-[11px] text-slate-400 truncate">На ${e.splits?.length || 0} чел.</span>
               </div>
@@ -495,15 +499,14 @@ export const App = {
               </div>
             </div>
 
-            <button class="btn-delete-expense w-8 h-8 rounded-full flex items-center justify-center text-slate-300 hover:text-rose-600 hover:bg-rose-50 transition" data-id="${e.id}" title="Удалить расход">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            <button class="btn-delete-expense w-8 h-8 rounded-xl flex items-center justify-center text-slate-300 hover:text-rose-600 hover:bg-rose-50 transition" data-id="${e.id}" title="Удалить операцию">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>
           </div>
         </div>
       `;
     }).join('');
 
-    // Слушатели удаления трат
     container.querySelectorAll('.btn-delete-expense').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         e.stopPropagation();
@@ -522,58 +525,24 @@ export const App = {
     });
   },
 
-  // --- ВКЛАДКА 2: БАЛАНС И ИТОГИ (MIN CASH FLOW) ---
+  // --- ВКЛАДКА 2: БАЛАНС И ВЗАИМОРАСЧЕТЫ (TRANSFER ИЗ РЕФЕРЕНСА) ---
 
   renderBalancesTab() {
     const room = State.currentRoom;
     const balances = State.balances;
     if (!room || !balances) return;
 
-    // 1. Отображение чистых балансов участников в виде чистых карточек
-    const netContainer = document.getElementById('net-balances-container');
-    const netList = balances.net_balances || [];
-
-    if (netContainer) {
-      netContainer.innerHTML = netList.map(item => {
-        const bal = item.balance;
-        let colorClass = 'text-slate-600';
-        let bgBadge = 'bg-slate-100 text-slate-600';
-        let prefix = '';
-
-        if (bal > 0.005) {
-          colorClass = 'text-emerald-600 font-bold';
-          bgBadge = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
-          prefix = '+';
-        } else if (bal < -0.005) {
-          colorClass = 'text-rose-600 font-bold';
-          bgBadge = 'bg-rose-50 text-rose-600 border border-rose-100';
-        }
-
-        return `
-          <div class="apple-card rounded-2xl p-3.5 flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-              <span class="w-2.5 h-2.5 rounded-full ${bal > 0 ? 'bg-emerald-500' : (bal < 0 ? 'bg-rose-500' : 'bg-slate-300')}"></span>
-              <span class="text-sm font-semibold text-slate-900">${item.name}</span>
-            </div>
-            <span class="text-xs font-bold px-2.5 py-1 rounded-full ${bgBadge}">
-              ${prefix}${State.formatCurrency(bal, room.base_currency)}
-            </span>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // 2. Отображение транзакций Min Cash Flow (Кто кому переводит)
+    // 1. Отображение переводов (Кто кому)
     const txContainer = document.getElementById('settlement-transactions-container');
     const txList = balances.transactions || [];
 
     if (txContainer) {
       if (txList.length === 0) {
         txContainer.innerHTML = `
-          <div class="apple-card rounded-2xl p-6 text-center text-slate-500 text-xs font-medium space-y-1">
-            <div class="text-2xl mb-1">🎉</div>
-            <div class="font-bold text-slate-800">Все взаиморасчеты закрыты!</div>
-            <div>Никто никому ничего не должен.</div>
+          <div class="liquid-glass-card rounded-[28px] p-6 text-center text-slate-500 text-xs font-medium space-y-1">
+            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 font-bold">✓</div>
+            <div class="font-extrabold text-slate-900 text-sm">Все взаиморасчеты закрыты</div>
+            <div>Балансы между всеми участниками равны нулю.</div>
           </div>
         `;
       } else {
@@ -581,11 +550,11 @@ export const App = {
           const reqs = tx.to_payment_details;
 
           return `
-            <div class="apple-card rounded-[24px] p-4 space-y-3">
+            <div class="liquid-glass-card rounded-[28px] p-4.5 space-y-3.5">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 text-sm font-bold">
+                <div class="flex items-center gap-2 text-sm font-extrabold">
                   <span class="text-rose-600">${tx.from}</span>
-                  <span class="text-slate-300">➔</span>
+                  <span class="text-slate-400">➔</span>
                   <span class="text-emerald-600">${tx.to}</span>
                 </div>
                 <div class="text-lg font-black text-slate-900 tracking-tight">
@@ -594,20 +563,20 @@ export const App = {
               </div>
 
               ${reqs ? `
-                <div class="bg-slate-50 rounded-xl p-2.5 flex items-center justify-between gap-2 border border-slate-100">
+                <div class="liquid-glass rounded-xl p-2.5 flex items-center justify-between gap-2 border border-white">
                   <div class="text-xs truncate flex-1">
-                    <span class="text-slate-400">Реквизиты:</span>
-                    <span class="font-medium text-slate-800 ml-1 selectable">${reqs}</span>
+                    <span class="text-slate-400 font-medium">Реквизиты:</span>
+                    <span class="font-bold text-slate-900 ml-1 selectable">${reqs}</span>
                   </div>
-                  <button class="btn-copy-reqs px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 rounded-lg text-xs font-bold transition flex items-center gap-1 shrink-0 shadow-2xs btn-press" data-reqs="${reqs}">
+                  <button class="btn-copy-reqs px-3 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-slate-950 rounded-lg text-xs font-black transition flex items-center gap-1.5 shrink-0 shadow-xs" data-reqs="${reqs}">
                     <span>Копировать</span>
-                    <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                    <svg class="w-3.5 h-3.5 text-slate-900" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
                   </button>
                 </div>
               ` : `
-                <div class="text-xs text-slate-400 flex items-center justify-between">
+                <div class="text-xs text-slate-400 flex items-center justify-between pt-1">
                   <span>Реквизиты не указаны</span>
-                  <button class="text-slate-900 font-semibold hover:underline btn-add-reqs-for" data-pid="${tx.to_id}">+ Добавить реквизиты</button>
+                  <button class="text-slate-900 font-extrabold hover:underline btn-add-reqs-for" data-pid="${tx.to_id}">+ Добавить реквизиты</button>
                 </div>
               `}
             </div>
@@ -627,6 +596,37 @@ export const App = {
           });
         });
       }
+    }
+
+    // 2. Отображение чистых балансов участников
+    const netContainer = document.getElementById('net-balances-container');
+    const netList = balances.net_balances || [];
+
+    if (netContainer) {
+      netContainer.innerHTML = netList.map(item => {
+        const bal = item.balance;
+        let bgBadge = 'liquid-glass text-slate-600';
+        let prefix = '';
+
+        if (bal > 0.005) {
+          bgBadge = 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+          prefix = '+';
+        } else if (bal < -0.005) {
+          bgBadge = 'bg-rose-100 text-rose-800 border border-rose-200';
+        }
+
+        return `
+          <div class="liquid-glass rounded-2xl p-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full ${bal > 0 ? 'bg-emerald-500' : (bal < 0 ? 'bg-rose-500' : 'bg-slate-300')}"></span>
+              <span class="text-sm font-extrabold text-slate-900">${item.name}</span>
+            </div>
+            <span class="text-xs font-black px-3 py-1 rounded-full ${bgBadge}">
+              ${prefix}${State.formatCurrency(bal, room.base_currency)}
+            </span>
+          </div>
+        `;
+      }).join('');
     }
   },
 
@@ -703,17 +703,17 @@ export const App = {
 
     splitsContainer.innerHTML = `
       <div class="flex justify-between items-center mb-2.5">
-        <span class="text-xs font-semibold text-slate-500" id="expense-split-preview">Все участники</span>
+        <span class="text-xs font-bold text-slate-500" id="expense-split-preview">Все участники</span>
         <div class="flex gap-2.5">
-          <button type="button" id="btn-split-all" class="text-xs font-bold text-slate-900 hover:underline">Все</button>
-          <button type="button" id="btn-split-none" class="text-xs font-medium text-slate-400 hover:text-slate-600">Снять</button>
+          <button type="button" id="btn-split-all" class="text-xs font-black text-slate-900 hover:underline">Все</button>
+          <button type="button" id="btn-split-none" class="text-xs font-semibold text-slate-400 hover:text-slate-700">Снять</button>
         </div>
       </div>
       <div class="space-y-1.5 max-h-44 overflow-y-auto pr-1">
         ${room.participants.map(p => `
-          <label class="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200/80 hover:border-slate-300 cursor-pointer shadow-2xs">
-            <span class="text-xs font-bold text-slate-800">${p.name}</span>
-            <input type="checkbox" value="${p.id}" checked class="expense-split-checkbox w-4.5 h-4.5 rounded-lg text-slate-900 focus:ring-slate-900 bg-slate-50 border-slate-300">
+          <label class="flex items-center justify-between p-3 rounded-2xl liquid-glass hover:bg-white cursor-pointer transition">
+            <span class="text-xs font-black text-slate-900">${p.name}</span>
+            <input type="checkbox" value="${p.id}" checked class="expense-split-checkbox w-4.5 h-4.5 rounded-lg text-slate-950 focus:ring-yellow-400 bg-white border-slate-300">
           </label>
         `).join('')}
       </div>
@@ -799,15 +799,15 @@ export const App = {
     container.innerHTML = `
       <div class="space-y-3 max-h-72 overflow-y-auto pr-1">
         ${room.participants.map(p => `
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+          <div class="p-3.5 rounded-2xl liquid-glass space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-900">${p.name}</span>
+              <span class="text-xs font-black text-slate-900">${p.name}</span>
             </div>
             <div>
               <div class="flex gap-2">
                 <input type="text" id="reqs-p-${p.id}" value="${p.payment_details || ''}" placeholder="Номер карты или телефон для СБП / ЕРИП"
-                  class="w-full bg-white border border-slate-200/80 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 transition">
-                <button type="button" class="btn-save-req px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold shrink-0 btn-press transition" data-id="${p.id}">
+                  class="w-full liquid-glass-input rounded-xl px-3 py-2 text-xs font-medium text-slate-900 placeholder-slate-400 focus:outline-none transition">
+                <button type="button" class="btn-save-req px-3.5 py-2 btn-finans-yellow rounded-xl text-xs font-black shrink-0 transition" data-id="${p.id}">
                   Сохранить
                 </button>
               </div>
@@ -816,12 +816,12 @@ export const App = {
         `).join('')}
       </div>
 
-      <div class="pt-3 border-t border-slate-100">
-        <label class="block text-xs font-semibold text-slate-500 mb-1.5">Добавить нового участника</label>
+      <div class="pt-3 border-t border-slate-200/60">
+        <label class="block text-xs font-bold text-slate-600 mb-1.5">Добавить нового участника</label>
         <div class="flex gap-2">
           <input type="text" id="new-participant-name" placeholder="Имя нового участника"
-            class="flex-1 bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-900 transition">
-          <button type="button" id="btn-add-new-participant" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-xs btn-press transition">
+            class="flex-1 liquid-glass-input rounded-2xl px-4 py-2.5 text-xs font-medium text-slate-900 placeholder-slate-400 focus:outline-none transition">
+          <button type="button" id="btn-add-new-participant" class="px-4 py-2.5 btn-finans-dark rounded-2xl text-xs font-black transition">
             + Добавить
           </button>
         </div>
