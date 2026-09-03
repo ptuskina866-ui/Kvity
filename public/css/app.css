@@ -34,12 +34,12 @@
 }
 
 body {
-  background-color: var(--bg-sage-1);
+  background-color: #64826b;
   background-image: 
-    radial-gradient(at 15% 15%, rgba(255, 255, 255, 0.3) 0px, transparent 45%),
-    radial-gradient(at 85% 25%, rgba(45, 78, 65, 0.18) 0px, transparent 40%),
-    radial-gradient(at 50% 85%, rgba(255, 255, 255, 0.35) 0px, transparent 50%),
-    linear-gradient(180deg, #8fa78e 0%, #adc1ab 30%, #c8d7c7 70%, #dbe4da 100%);
+    radial-gradient(at 15% 15%, rgba(255, 255, 255, 0.15) 0px, transparent 45%),
+    radial-gradient(at 85% 25%, rgba(13, 40, 32, 0.22) 0px, transparent 45%),
+    radial-gradient(at 50% 85%, rgba(255, 255, 255, 0.2) 0px, transparent 50%),
+    linear-gradient(180deg, #607e67 0%, #7c9983 25%, #9cb6a3 60%, #c4d6c9 100%);
   background-attachment: fixed;
   color: var(--text-forest);
   font-family: var(--font-family);

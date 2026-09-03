@@ -161,12 +161,12 @@ export const App = {
             <img src="images/logo.webp" alt="Квиты" class="w-60 sm:w-72 max-w-full h-auto drop-shadow-md select-none">
           </div>
 
-          <!-- Главный типографический блок с любимой фразой (центрированный) -->
+          <!-- Главный типографический блок с любимой фразой (кристально белый контраст) -->
           <div class="pt-1 px-1 text-center">
-            <h1 class="text-3xl font-black text-forest-dark leading-[1.18] tracking-tight">
-              Разделите расходы,<br><span class="text-forest-muted">сохраните дружбу.</span>
+            <h1 class="text-3xl font-black text-white leading-[1.18] tracking-tight drop-shadow-sm">
+              Разделите расходы,<br><span class="text-white/85 font-extrabold">сохраните дружбу.</span>
             </h1>
-            <p class="text-xs text-forest-muted font-medium mt-2 leading-relaxed max-w-xs mx-auto">
+            <p class="text-xs text-white/80 font-medium mt-2.5 leading-relaxed max-w-xs mx-auto drop-shadow-xs">
               Быстрый расчет чеков, счетов и долгов для поездок и вечеринок без обязательной регистрации.
             </p>
           </div>
