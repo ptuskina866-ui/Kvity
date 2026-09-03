@@ -1,32 +1,30 @@
 /* 
-  Дизайн-система «Квиты»: Pure Apple Minimalism & Ultra Liquid Glass
+  Дизайн-система «Квиты»: Sage & Deep Forest Liquid Glass (по природному референсу)
 */
 
 :root {
-  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
 
-  /* Фон: чистый светлый градиент Apple (без желтого) */
-  --bg-color-1: #f8fafc;
-  --bg-color-2: #edf2f7;
-  --bg-color-3: #e2e8f0;
+  /* Палитра утреннего шалфея и туманного леса */
+  --bg-sage-top: #8fa78e;
+  --bg-sage-mid: #adc1ab;
+  --bg-sage-bottom: #cad8c9;
 
   /* Цвета текста */
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --text-light: #94a3b8;
+  --text-forest: #0d2820;
+  --text-forest-muted: #3d544c;
+  --text-white: #ffffff;
 
-  /* Apple акценты */
-  --accent-apple-black: #0f172a;
-  --accent-apple-hover: #1e293b;
-  --accent-emerald: #10b981;
-  --accent-rose: #f43f5e;
+  /* Фирменный хвойный акцент из референса */
+  --forest-dark: #0f2922;
+  --forest-dark-hover: #183e34;
+  --forest-light: #e8f0e7;
 
-  /* Liquid Glass: эффект преломленного стекла в стиле Apple Vision / iOS */
-  --glass-surface: rgba(255, 255, 255, 0.72);
-  --glass-surface-card: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.04), 0 2px 8px -2px rgba(15, 23, 42, 0.02);
-  --glass-inner-bevel: inset 0 1px 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.02);
+  /* Liquid Glass: морозное туманное стекло */
+  --glass-sage-card: rgba(255, 255, 255, 0.68);
+  --glass-sage-border: rgba(255, 255, 255, 0.82);
+  --glass-shadow: 0 16px 40px -6px rgba(13, 40, 32, 0.08), 0 4px 12px -2px rgba(13, 40, 32, 0.03);
+  --glass-inner-bevel: inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 1px 0 rgba(13, 40, 32, 0.02);
 }
 
 * {
@@ -35,13 +33,14 @@
 }
 
 body {
-  background-color: #f8fafc;
+  background-color: var(--bg-sage-top);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(226, 232, 240, 0.7) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(241, 245, 249, 0.8) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(203, 213, 225, 0.4) 0px, transparent 50%);
+    radial-gradient(at 10% 10%, rgba(255, 255, 255, 0.25) 0px, transparent 40%),
+    radial-gradient(at 90% 20%, rgba(45, 78, 65, 0.15) 0px, transparent 45%),
+    radial-gradient(at 50% 90%, rgba(255, 255, 255, 0.3) 0px, transparent 50%),
+    linear-gradient(180deg, #8fa78e 0%, #adc1ab 30%, #cad8c9 70%, #d8e2d7 100%);
   background-attachment: fixed;
-  color: var(--text-main);
+  color: var(--text-forest);
   font-family: var(--font-family);
   letter-spacing: -0.018em;
   user-select: none;
@@ -55,80 +54,81 @@ input, textarea, .selectable {
   user-select: text;
 }
 
-/* Liquid Glass Cards */
+/* Liquid Glass Карточки в шалфейном стиле */
 .liquid-glass {
-  background: var(--glass-surface);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  border: 1px solid var(--glass-sage-border);
   box-shadow: var(--glass-shadow), var(--glass-inner-bevel);
 }
 
 .liquid-glass-card {
-  background: var(--glass-surface-card);
-  backdrop-filter: blur(36px) saturate(190%);
-  -webkit-backdrop-filter: blur(36px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  background: var(--glass-sage-card);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   box-shadow: 
-    0 20px 40px -8px rgba(15, 23, 42, 0.05),
-    0 4px 12px -2px rgba(15, 23, 42, 0.02),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 1);
+    0 20px 48px -8px rgba(13, 40, 32, 0.1),
+    0 4px 14px -2px rgba(13, 40, 32, 0.04),
+    var(--glass-inner-bevel);
 }
 
 .liquid-glass-input {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(13, 40, 32, 0.08);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
   transition: all 0.2s ease;
+  color: #0d2820;
 }
 
 .liquid-glass-input:focus {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: #0f172a;
-  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+  background: rgba(255, 255, 255, 0.92);
+  border-color: #0f2922;
+  box-shadow: 0 0 0 3px rgba(15, 41, 34, 0.12);
 }
 
-/* Кнопки в стиле Apple */
-.btn-apple-primary {
-  background-color: var(--accent-apple-black);
+/* Фирменная глубокая хвойная кнопка из референса */
+.btn-forest-primary {
+  background-color: var(--forest-dark);
   color: #ffffff;
   font-weight: 700;
-  box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 12px 28px -4px rgba(15, 41, 34, 0.35);
   transition: all 0.15s ease;
 }
 
-.btn-apple-primary:hover {
-  background-color: var(--accent-apple-hover);
+.btn-forest-primary:hover {
+  background-color: var(--forest-dark-hover);
 }
 
-.btn-apple-primary:active {
+.btn-forest-primary:active {
   transform: scale(0.97);
 }
 
-.btn-apple-glass {
+.btn-forest-glass {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  color: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  color: var(--text-forest);
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 2px 8px rgba(13, 40, 32, 0.04);
   transition: all 0.15s ease;
 }
 
-.btn-apple-glass:hover {
+.btn-forest-glass:hover {
   background: #ffffff;
 }
 
-.btn-apple-glass:active {
+.btn-forest-glass:active {
   transform: scale(0.96);
 }
 
-/* Сегментный переключатель в стиле Apple iOS */
+/* Сегментный переключатель вкладок */
 .segment-container {
-  background: rgba(15, 23, 42, 0.05);
+  background: rgba(13, 40, 32, 0.06);
   backdrop-filter: blur(16px);
   padding: 4px;
   border-radius: 20px;
@@ -136,11 +136,11 @@ input, textarea, .selectable {
 
 .segment-item-active {
   background: #ffffff;
-  color: #0f172a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: #0f2922;
+  box-shadow: 0 2px 8px rgba(13, 40, 32, 0.08);
 }
 
-/* Floating Dock */
+/* Плавающая панель с хвойной кнопкой */
 .floating-dock-wrapper {
   position: fixed;
   bottom: 24px;
@@ -154,10 +154,10 @@ input, textarea, .selectable {
 
 .floating-action-btn {
   pointer-events: auto;
-  background-color: #0f172a;
+  background-color: var(--forest-dark);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 16px 36px -4px rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 36px -4px rgba(15, 41, 34, 0.4);
   transition: transform 0.12s ease;
 }
 

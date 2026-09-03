@@ -9,9 +9,9 @@ function showToast(message, duration = 2500) {
   if (!container) return;
 
   const toast = document.createElement('div');
-  toast.className = 'liquid-glass-card text-slate-900 px-4 py-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 animate-liquid-sheet text-xs font-bold';
+  toast.className = 'liquid-glass-card text-forest-dark px-4 py-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 animate-liquid-sheet text-xs font-bold';
   toast.innerHTML = `
-    <span class="w-2.5 h-2.5 rounded-full bg-slate-900 animate-ping"></span>
+    <span class="w-2.5 h-2.5 rounded-full bg-emerald-700 animate-ping"></span>
     <span class="flex-1">${message}</span>
   `;
   container.appendChild(toast);
@@ -53,7 +53,7 @@ function fallbackCopy(text, successMsg) {
   document.body.removeChild(textArea);
 }
 
-// --- УПРАВЛЕНИЕ РОУТИНГОМ ---
+// --- РОУТИНГ ---
 
 function getSlugFromUrl() {
   const hash = window.location.hash;
@@ -78,7 +78,6 @@ export const App = {
   async init() {
     TMA.init();
 
-    // Регистрация Service Worker для PWA
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')
         .then(() => console.log('Service Worker зарегистрирован'))
@@ -146,7 +145,7 @@ export const App = {
     }
   },
 
-  // --- ГЛАВНАЯ СТРАНИЦА В СТИЛЕ APPLE LIQUID GLASS ---
+  // --- ГЛАВНАЯ СТРАНИЦА: SAGE & FOREST VIBE ПО РЕФЕРЕНСУ ---
 
   renderHomeView() {
     const container = document.getElementById('view-home');
@@ -154,45 +153,45 @@ export const App = {
     const tgUser = TMA.getUserFirstName();
 
     container.innerHTML = `
-      <div class="max-w-md mx-auto p-5 pb-16 flex flex-col min-h-screen justify-between">
-        <div class="space-y-6 pt-3">
-          <!-- Логотип и промо-блок в стиле Apple -->
-          <div class="pt-3 pb-1">
-            <div class="flex items-center gap-2.5 mb-5">
-              <div class="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center shadow-lg shadow-slate-900/10">
-                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+      <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
+        <div class="space-y-5 pt-2">
+          
+          <!-- Шапка с брендом -->
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-2xl bg-forest-dark flex items-center justify-center shadow-md">
+                <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
               </div>
-              <span class="text-xl font-extrabold tracking-tight text-slate-900">Квиты</span>
+              <span class="text-lg font-black tracking-tight text-forest-dark">Квиты</span>
             </div>
 
-            <h1 class="text-3xl font-black tracking-tight text-slate-900 leading-tight">
-              Разделите расходы,<br><span class="text-slate-400">сохраните баланс.</span>
-            </h1>
-            <p class="text-xs text-slate-500 font-medium mt-2 leading-relaxed">
-              Быстрый расчет чеков, совместных счетов и долгов для поездок без обязательной регистрации.
-            </p>
+            <span class="text-[11px] font-bold text-forest-dark bg-white/70 px-3 py-1 rounded-full border border-white">Zero-Login</span>
+          </div>
+
+          <!-- Фото-коллаж в стиле кемпинг/поездки из левого экрана референса -->
+          <div class="relative rounded-[32px] overflow-hidden shadow-xl border border-white/60 aspect-[16/10] bg-forest-dark/10">
+            <img src="images/hero-collage.jpg" alt="Поездки и совместные моменты" class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-gradient-to-t from-forest-dark/85 via-forest-dark/30 to-transparent flex flex-col justify-end p-5">
+              <span class="text-xs font-bold uppercase tracking-widest text-emerald-300">Совместные расходы</span>
+              <h1 class="text-2xl font-black text-white leading-tight mt-1">
+                Делите расходы<br>в поездках легко!
+              </h1>
+            </div>
           </div>
 
           <!-- Форма создания сбора в стиле Liquid Glass -->
           <div class="liquid-glass-card rounded-[32px] p-6 space-y-5">
-            <div class="flex items-center justify-between">
-              <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Новое событие
-              </h2>
-              <span class="text-[11px] font-bold text-slate-700 bg-slate-100/90 px-2.5 py-0.5 rounded-full border border-slate-200/60">Zero-Login</span>
+            <div>
+              <label class="block text-xs font-bold text-forest-muted mb-1.5">Куда едем или что празднуем?</label>
+              <input type="text" id="new-room-title" placeholder="например: Кемпинг у озера, Поездка в горы, Дача"
+                class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-semibold placeholder-forest-muted/50 focus:outline-none transition">
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Название сбора</label>
-              <input type="text" id="new-room-title" placeholder="например: Поездка в горы, Бар, Пицца"
-                class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-semibold text-slate-900 placeholder-slate-400 focus:outline-none transition">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Основная валюта</label>
+              <label class="block text-xs font-bold text-forest-muted mb-1.5">Основная валюта</label>
               <div class="grid grid-cols-5 gap-1.5" id="currency-selector">
                 ${['RUB', 'BYN', 'KZT', 'USD', 'EUR'].map(c => `
-                  <button type="button" data-curr="${c}" class="curr-btn py-2.5 text-xs font-black rounded-2xl transition ${c === 'RUB' ? 'bg-slate-900 text-white shadow-md' : 'liquid-glass text-slate-700 hover:bg-white'}">
+                  <button type="button" data-curr="${c}" class="curr-btn py-2.5 text-xs font-black rounded-2xl transition ${c === 'RUB' ? 'bg-forest-dark text-white shadow-md' : 'liquid-glass text-forest-dark hover:bg-white'}">
                     ${c}
                   </button>
                 `).join('')}
@@ -201,34 +200,34 @@ export const App = {
 
             <div>
               <div class="flex justify-between items-center mb-1.5">
-                <label class="text-xs font-bold text-slate-700">Участники сбора</label>
-                ${tgUser ? `<button id="btn-add-tg-user" class="text-xs font-extrabold text-slate-900 hover:underline">+ Я (${tgUser})</button>` : ''}
+                <label class="text-xs font-bold text-forest-muted">Участники сбора</label>
+                ${tgUser ? `<button id="btn-add-tg-user" class="text-xs font-extrabold text-forest-dark hover:underline">+ Я (${tgUser})</button>` : ''}
               </div>
               
               <div class="flex flex-wrap gap-1.5 p-2 liquid-glass-input rounded-2xl min-h-[52px] items-center" id="tags-container">
                 <input type="text" id="participant-input" placeholder="Имя и Enter..."
-                  class="bg-transparent border-none text-slate-900 text-sm font-semibold focus:outline-none px-2.5 py-1 flex-1 min-w-[110px]">
+                  class="bg-transparent border-none text-forest-dark text-sm font-semibold focus:outline-none px-2.5 py-1 flex-1 min-w-[110px]">
               </div>
             </div>
 
-            <button id="btn-create-room" class="w-full py-4 px-4 btn-apple-primary rounded-2xl text-sm font-bold tracking-tight flex items-center justify-center gap-2">
+            <button id="btn-create-room" class="w-full py-4 px-4 btn-forest-primary rounded-2xl text-sm font-bold tracking-tight flex items-center justify-center gap-2">
               <span>Создать сбор</span>
               <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
           </div>
 
-          <!-- Список недавних сборов -->
+          <!-- Недавние сборы -->
           ${recent.length > 0 ? `
             <div class="space-y-2.5 pt-1">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 px-1">Недавние сборы</h3>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-forest-muted px-1">Недавние события</h3>
               <div class="space-y-2">
                 ${recent.map(r => `
                   <a href="#/r/${r.slug}" class="liquid-glass p-4 rounded-2xl flex items-center justify-between hover:bg-white transition group">
                     <div>
-                      <div class="font-bold text-slate-900 text-sm">${r.title}</div>
-                      <div class="text-xs text-slate-400 mt-0.5">Токен: ${r.slug} • Валюта: ${r.base_currency}</div>
+                      <div class="font-bold text-forest-dark text-sm">${r.title}</div>
+                      <div class="text-xs text-forest-muted/70 mt-0.5">Токен: ${r.slug} • Валюта: ${r.base_currency}</div>
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 group-hover:bg-slate-900 group-hover:text-white transition">
+                    <div class="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-forest-dark group-hover:bg-forest-dark group-hover:text-white transition">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7m0 0H7m10 0v10"/></svg>
                     </div>
                   </a>
@@ -238,7 +237,7 @@ export const App = {
           ` : ''}
         </div>
 
-        <div class="text-center text-xs text-slate-400 font-medium pt-8">
+        <div class="text-center text-xs text-forest-muted/70 font-medium pt-8">
           «Квиты» • PWA & Telegram Mini App • Cloudflare D1
         </div>
       </div>
@@ -256,9 +255,9 @@ export const App = {
         TMA.haptic.selection();
         selectedCurrency = btn.dataset.curr;
         document.querySelectorAll('.curr-btn').forEach(b => {
-          b.className = 'curr-btn py-2.5 text-xs font-black rounded-2xl transition liquid-glass text-slate-700 hover:bg-white';
+          b.className = 'curr-btn py-2.5 text-xs font-black rounded-2xl transition liquid-glass text-forest-dark hover:bg-white';
         });
-        btn.className = 'curr-btn py-2.5 text-xs font-black rounded-2xl transition bg-slate-900 text-white shadow-md';
+        btn.className = 'curr-btn py-2.5 text-xs font-black rounded-2xl transition bg-forest-dark text-white shadow-md';
       });
     });
 
@@ -269,10 +268,10 @@ export const App = {
       tagsContainer.querySelectorAll('.participant-tag').forEach(t => t.remove());
       participants.forEach((name, idx) => {
         const tag = document.createElement('span');
-        tag.className = 'participant-tag inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-slate-900 border border-slate-200/80 shadow-sm text-xs font-bold';
+        tag.className = 'participant-tag inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-forest-dark border border-forest-dark/10 shadow-sm text-xs font-bold';
         tag.innerHTML = `
           <span>${name}</span>
-          <button type="button" data-idx="${idx}" class="remove-tag text-slate-400 hover:text-slate-950 font-bold">&times;</button>
+          <button type="button" data-idx="${idx}" class="remove-tag text-forest-muted/50 hover:text-forest-dark font-bold">&times;</button>
         `;
         tagsContainer.insertBefore(tag, input);
       });
@@ -421,11 +420,11 @@ export const App = {
       tabExpenses.classList.remove('hidden');
       tabBalances.classList.add('hidden');
       btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition';
-      btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-slate-500 hover:text-slate-900 transition';
+      btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-forest-muted hover:text-forest-dark transition';
     } else {
       tabExpenses.classList.add('hidden');
       tabBalances.classList.remove('hidden');
-      btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-slate-500 hover:text-slate-900 transition';
+      btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-forest-muted hover:text-forest-dark transition';
       btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition';
       this.renderBalancesTab();
     }
@@ -443,11 +442,11 @@ export const App = {
     if (expenses.length === 0) {
       container.innerHTML = `
         <div class="liquid-glass-card rounded-[32px] p-8 text-center space-y-3 my-4">
-          <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-900 flex items-center justify-center mx-auto shadow-sm">
+          <div class="w-12 h-12 rounded-2xl bg-white/70 text-forest-dark flex items-center justify-center mx-auto shadow-sm">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           </div>
-          <h3 class="text-base font-extrabold text-slate-900">Операций пока нет</h3>
-          <p class="text-xs text-slate-400 max-w-xs mx-auto">
+          <h3 class="text-base font-extrabold text-forest-dark">Операций пока нет</h3>
+          <p class="text-xs text-forest-muted max-w-xs mx-auto">
             Нажмите «+ Добавить расход» внизу экрана, чтобы записать оплату или общий чек
           </p>
         </div>
@@ -465,33 +464,32 @@ export const App = {
       return `
         <div class="liquid-glass rounded-2xl p-4 flex items-center justify-between gap-3.5 hover:bg-white transition group">
           <div class="flex items-center gap-3.5 flex-1 min-w-0">
-            <!-- Иконка расхода в стиле Apple -->
-            <div class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-900 flex items-center justify-center shrink-0 border border-slate-200/60 shadow-xs">
+            <div class="w-11 h-11 rounded-2xl bg-white/80 text-forest-dark flex items-center justify-center shrink-0 border border-white shadow-xs">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7m0 0H7m10 0v10"/></svg>
             </div>
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2">
-                <span class="font-extrabold text-slate-900 text-sm truncate">${e.title}</span>
-                ${formattedDate ? `<span class="text-[11px] text-slate-400 font-semibold">${formattedDate}</span>` : ''}
+                <span class="font-extrabold text-forest-dark text-sm truncate">${e.title}</span>
+                ${formattedDate ? `<span class="text-[11px] text-forest-muted/70 font-semibold">${formattedDate}</span>` : ''}
               </div>
-              <div class="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5 flex-wrap">
+              <div class="text-xs text-forest-muted mt-0.5 flex items-center gap-1.5 flex-wrap">
                 <span>Оплатил:</span>
-                <span class="font-bold text-slate-800">${e.payer_name}</span>
-                <span class="text-slate-300">•</span>
-                <span class="text-[11px] text-slate-400 truncate">На ${e.splits?.length || 0} чел.</span>
+                <span class="font-bold text-forest-dark">${e.payer_name}</span>
+                <span class="text-forest-muted/40">•</span>
+                <span class="text-[11px] text-forest-muted truncate">На ${e.splits?.length || 0} чел.</span>
               </div>
             </div>
           </div>
 
           <div class="flex items-center gap-3 shrink-0">
             <div class="text-right">
-              <div class="text-base font-black text-slate-900 tracking-tight">
+              <div class="text-base font-black text-forest-dark tracking-tight">
                 ${State.formatCurrency(e.amount, e.currency || room.base_currency)}
               </div>
             </div>
 
-            <button class="btn-delete-expense w-8 h-8 rounded-xl flex items-center justify-center text-slate-300 hover:text-rose-600 hover:bg-rose-50 transition" data-id="${e.id}" title="Удалить операцию">
+            <button class="btn-delete-expense w-8 h-8 rounded-xl flex items-center justify-center text-forest-muted/50 hover:text-rose-600 hover:bg-rose-50 transition" data-id="${e.id}" title="Удалить операцию">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>
           </div>
@@ -530,9 +528,9 @@ export const App = {
     if (txContainer) {
       if (txList.length === 0) {
         txContainer.innerHTML = `
-          <div class="liquid-glass-card rounded-[28px] p-6 text-center text-slate-500 text-xs font-medium space-y-1">
-            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto mb-2 font-bold">✓</div>
-            <div class="font-extrabold text-slate-900 text-sm">Все взаиморасчеты закрыты</div>
+          <div class="liquid-glass-card rounded-[28px] p-6 text-center text-forest-muted text-xs font-medium space-y-1">
+            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center mx-auto mb-2 font-bold">✓</div>
+            <div class="font-extrabold text-forest-dark text-sm">Все взаиморасчеты закрыты</div>
             <div>Балансы между всеми участниками равны нулю.</div>
           </div>
         `;
@@ -545,10 +543,10 @@ export const App = {
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 text-sm font-extrabold">
                   <span class="text-rose-600">${tx.from}</span>
-                  <span class="text-slate-400">➔</span>
-                  <span class="text-emerald-600">${tx.to}</span>
+                  <span class="text-forest-muted/50">➔</span>
+                  <span class="text-emerald-700">${tx.to}</span>
                 </div>
-                <div class="text-lg font-black text-slate-900 tracking-tight">
+                <div class="text-lg font-black text-forest-dark tracking-tight">
                   ${State.formatCurrency(tx.amount, room.base_currency)}
                 </div>
               </div>
@@ -556,18 +554,18 @@ export const App = {
               ${reqs ? `
                 <div class="liquid-glass rounded-xl p-2.5 flex items-center justify-between gap-2 border border-white">
                   <div class="text-xs truncate flex-1">
-                    <span class="text-slate-400 font-medium">Реквизиты:</span>
-                    <span class="font-bold text-slate-900 ml-1 selectable">${reqs}</span>
+                    <span class="text-forest-muted font-medium">Реквизиты:</span>
+                    <span class="font-bold text-forest-dark ml-1 selectable">${reqs}</span>
                   </div>
-                  <button class="btn-copy-reqs px-3 py-1.5 btn-apple-glass rounded-lg text-xs font-bold transition flex items-center gap-1.5 shrink-0" data-reqs="${reqs}">
+                  <button class="btn-copy-reqs px-3 py-1.5 btn-forest-glass rounded-lg text-xs font-bold transition flex items-center gap-1.5 shrink-0" data-reqs="${reqs}">
                     <span>Копировать</span>
-                    <svg class="w-3.5 h-3.5 text-slate-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                    <svg class="w-3.5 h-3.5 text-forest-dark" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
                   </button>
                 </div>
               ` : `
-                <div class="text-xs text-slate-400 flex items-center justify-between pt-1">
+                <div class="text-xs text-forest-muted flex items-center justify-between pt-1">
                   <span>Реквизиты не указаны</span>
-                  <button class="text-slate-900 font-extrabold hover:underline btn-add-reqs-for" data-pid="${tx.to_id}">+ Добавить реквизиты</button>
+                  <button class="text-forest-dark font-extrabold hover:underline btn-add-reqs-for" data-pid="${tx.to_id}">+ Добавить реквизиты</button>
                 </div>
               `}
             </div>
@@ -595,21 +593,21 @@ export const App = {
     if (netContainer) {
       netContainer.innerHTML = netList.map(item => {
         const bal = item.balance;
-        let bgBadge = 'liquid-glass text-slate-600';
+        let bgBadge = 'liquid-glass text-forest-muted';
         let prefix = '';
 
         if (bal > 0.005) {
-          bgBadge = 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+          bgBadge = 'bg-emerald-100/90 text-emerald-800 border border-emerald-200';
           prefix = '+';
         } else if (bal < -0.005) {
-          bgBadge = 'bg-rose-100 text-rose-800 border border-rose-200';
+          bgBadge = 'bg-rose-100/90 text-rose-800 border border-rose-200';
         }
 
         return `
           <div class="liquid-glass rounded-2xl p-3.5 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-              <span class="w-2.5 h-2.5 rounded-full ${bal > 0 ? 'bg-emerald-500' : (bal < 0 ? 'bg-rose-500' : 'bg-slate-300')}"></span>
-              <span class="text-sm font-extrabold text-slate-900">${item.name}</span>
+              <span class="w-2.5 h-2.5 rounded-full ${bal > 0 ? 'bg-emerald-600' : (bal < 0 ? 'bg-rose-500' : 'bg-slate-300')}"></span>
+              <span class="text-sm font-extrabold text-forest-dark">${item.name}</span>
             </div>
             <span class="text-xs font-black px-3 py-1 rounded-full ${bgBadge}">
               ${prefix}${State.formatCurrency(bal, room.base_currency)}
@@ -630,7 +628,7 @@ export const App = {
     const totalStr = State.formatCurrency(room.total_spent || 0, room.base_currency);
     const txList = balances.transactions || [];
 
-    let text = `🧾 Взаиморасчеты: ${room.title}\n`;
+    let text = `🌲 Взаиморасчеты: ${room.title}\n`;
     text += `Всего потрачено: ${totalStr}\n\n`;
 
     if (txList.length === 0) {
@@ -693,17 +691,17 @@ export const App = {
 
     splitsContainer.innerHTML = `
       <div class="flex justify-between items-center mb-2.5">
-        <span class="text-xs font-bold text-slate-500" id="expense-split-preview">Все участники</span>
+        <span class="text-xs font-bold text-forest-muted" id="expense-split-preview">Все участники</span>
         <div class="flex gap-2.5">
-          <button type="button" id="btn-split-all" class="text-xs font-black text-slate-900 hover:underline">Все</button>
-          <button type="button" id="btn-split-none" class="text-xs font-semibold text-slate-400 hover:text-slate-700">Снять</button>
+          <button type="button" id="btn-split-all" class="text-xs font-black text-forest-dark hover:underline">Все</button>
+          <button type="button" id="btn-split-none" class="text-xs font-semibold text-forest-muted/60 hover:text-forest-dark">Снять</button>
         </div>
       </div>
       <div class="space-y-1.5 max-h-44 overflow-y-auto pr-1">
         ${room.participants.map(p => `
           <label class="flex items-center justify-between p-3 rounded-2xl liquid-glass hover:bg-white cursor-pointer transition">
-            <span class="text-xs font-black text-slate-900">${p.name}</span>
-            <input type="checkbox" value="${p.id}" checked class="expense-split-checkbox w-4.5 h-4.5 rounded-lg text-slate-900 focus:ring-slate-900 bg-white border-slate-300">
+            <span class="text-xs font-black text-forest-dark">${p.name}</span>
+            <input type="checkbox" value="${p.id}" checked class="expense-split-checkbox w-4.5 h-4.5 rounded-lg text-forest-dark focus:ring-forest-dark bg-white border-forest-dark/20">
           </label>
         `).join('')}
       </div>
@@ -791,13 +789,13 @@ export const App = {
         ${room.participants.map(p => `
           <div class="p-3.5 rounded-2xl liquid-glass space-y-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-slate-900">${p.name}</span>
+              <span class="text-xs font-black text-forest-dark">${p.name}</span>
             </div>
             <div>
               <div class="flex gap-2">
                 <input type="text" id="reqs-p-${p.id}" value="${p.payment_details || ''}" placeholder="Номер карты или телефон для СБП / ЕРИП"
-                  class="w-full liquid-glass-input rounded-xl px-3 py-2 text-xs font-medium text-slate-900 placeholder-slate-400 focus:outline-none transition">
-                <button type="button" class="btn-save-req px-3.5 py-2 btn-apple-glass rounded-xl text-xs font-bold shrink-0 transition" data-id="${p.id}">
+                  class="w-full liquid-glass-input rounded-xl px-3 py-2 text-xs font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
+                <button type="button" class="btn-save-req px-3.5 py-2 btn-forest-glass rounded-xl text-xs font-bold shrink-0 transition" data-id="${p.id}">
                   Сохранить
                 </button>
               </div>
@@ -806,12 +804,12 @@ export const App = {
         `).join('')}
       </div>
 
-      <div class="pt-3 border-t border-slate-200/60">
-        <label class="block text-xs font-bold text-slate-700 mb-1.5">Добавить нового участника</label>
+      <div class="pt-3 border-t border-forest-dark/10">
+        <label class="block text-xs font-bold text-forest-muted mb-1.5">Добавить нового участника</label>
         <div class="flex gap-2">
           <input type="text" id="new-participant-name" placeholder="Имя нового участника"
-            class="flex-1 liquid-glass-input rounded-2xl px-4 py-2.5 text-xs font-medium text-slate-900 placeholder-slate-400 focus:outline-none transition">
-          <button type="button" id="btn-add-new-participant" class="px-4 py-2.5 btn-apple-primary rounded-2xl text-xs font-bold transition">
+            class="flex-1 liquid-glass-input rounded-2xl px-4 py-2.5 text-xs font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
+          <button type="button" id="btn-add-new-participant" class="px-4 py-2.5 btn-forest-primary rounded-2xl text-xs font-bold transition">
             + Добавить
           </button>
         </div>
