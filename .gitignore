@@ -1,5 +1,6 @@
 database/kvity.sqlite
 database/*.sqlite
+cloudflared.exe
 .env
 .DS_Store
 Thumbs.db

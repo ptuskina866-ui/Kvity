@@ -1,0 +1,14 @@
+{
+  "name": "kvity",
+  "version": "1.0.0",
+  "description": "Сервис совместных расходов и деления чеков без регистрации (Zero-login)",
+  "private": true,
+  "main": "worker/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.100.0"
+  }
+}
