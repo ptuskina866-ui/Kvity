@@ -32,7 +32,7 @@ export const API = {
   },
 
   // Создать новый сбор (комнату)
-  async createRoom(title, baseCurrency = 'RUB', participants = []) {
+  async createRoom(title, baseCurrency = 'BYN', participants = []) {
     return this.request('/rooms', {
       method: 'POST',
       body: JSON.stringify({

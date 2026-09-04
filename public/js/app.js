@@ -192,8 +192,8 @@ export const App = {
             <div>
               <label class="block text-xs font-bold text-forest-muted mb-1.5">Основная валюта</label>
               <div class="grid grid-cols-5 gap-1.5" id="currency-selector">
-                ${['RUB', 'BYN', 'KZT', 'USD', 'EUR'].map(c => `
-                  <button type="button" data-curr="${c}" class="curr-btn py-2.5 text-xs font-black rounded-2xl transition ${c === 'RUB' ? 'bg-forest-dark text-white shadow-md' : 'liquid-glass text-forest-dark hover:bg-white'}">
+                ${['BYN', 'RUB', 'KZT', 'USD', 'EUR'].map(c => `
+                  <button type="button" data-curr="${c}" class="curr-btn py-2.5 text-xs font-black rounded-2xl transition ${c === 'BYN' ? 'bg-forest-dark text-white shadow-md' : 'liquid-glass text-forest-dark hover:bg-white'}">
                     ${c}
                   </button>
                 `).join('')}
@@ -253,7 +253,7 @@ export const App = {
   },
 
   bindHomeEvents() {
-    let selectedCurrency = 'RUB';
+    let selectedCurrency = 'BYN';
     const participants = [];
 
     document.getElementById('btn-how-it-works')?.addEventListener('click', () => {

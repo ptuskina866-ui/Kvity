@@ -16,7 +16,7 @@ export const State = {
   activeTab: 'expenses', // 'expenses' | 'balances'
   
   // Получить символ валюты
-  formatCurrency(amount, currency = 'RUB') {
+  formatCurrency(amount, currency = 'BYN') {
     const symbol = CURRENCY_SYMBOLS[currency] || currency;
     const formatted = new Intl.NumberFormat('ru-RU', {
       minimumFractionDigits: 0,
