@@ -249,6 +249,7 @@ export const App = {
     `;
 
     this.bindHomeEvents();
+    TMA.checkFullscreen();
   },
 
   bindHomeEvents() {

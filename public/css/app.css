@@ -85,9 +85,17 @@ body.modal-open {
 
 .safe-top-padding {
   padding-top: max(var(--safe-top), 16px);
+  transition: padding-top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-body.tma-app .safe-top-padding {
+/* Telegram: неполный экран (сверху нативная белая шапка Telegram) */
+body.tma-sheet .safe-top-padding {
+  padding-top: 14px !important;
+}
+
+/* Telegram: полноэкранный режим (сверху плавающие кнопки Закрыть и ...) */
+body.tma-fullscreen .safe-top-padding,
+body.tma-app:not(.tma-sheet) .safe-top-padding {
   padding-top: max(
     var(--tma-safe-top, 0px),
     calc(env(safe-area-inset-top, 0px) + 52px),

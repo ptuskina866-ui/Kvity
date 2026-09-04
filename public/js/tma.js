@@ -17,22 +17,44 @@ export const TMA = {
         // Синхронизируем цвета темы Telegram
         this.applyThemeColors();
         this.applySafeAreas();
+        this.checkFullscreen();
 
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
           this.user = tg.initDataUnsafe.user;
         }
 
-        // Слушатели изменения темы и безопасных зон Telegram
+        // Слушатели изменения темы, безопасных зон и изменения размера окна
         tg.onEvent('themeChanged', () => this.applyThemeColors());
-        tg.onEvent('safeAreaChanged', () => this.applySafeAreas());
-        tg.onEvent('contentSafeAreaChanged', () => this.applySafeAreas());
-        tg.onEvent('fullscreenChanged', () => this.applySafeAreas());
+        tg.onEvent('safeAreaChanged', () => { this.applySafeAreas(); this.checkFullscreen(); });
+        tg.onEvent('contentSafeAreaChanged', () => { this.applySafeAreas(); this.checkFullscreen(); });
+        tg.onEvent('fullscreenChanged', () => { this.applySafeAreas(); this.checkFullscreen(); });
+        tg.onEvent('viewportChanged', () => { this.applySafeAreas(); this.checkFullscreen(); });
+        window.addEventListener('resize', () => { this.applySafeAreas(); this.checkFullscreen(); });
       } catch (e) {
         console.warn('Ошибка инициализации Telegram WebApp:', e);
       }
     } else {
       // Обычный браузер или PWA
       this.isTMA = false;
+    }
+  },
+
+  checkFullscreen() {
+    const tg = window.Telegram?.WebApp;
+    if (!this.isTMA) return;
+
+    // В полноэкранном режиме окно занимает почти весь физический экран
+    const isFull = Boolean(
+      tg?.isFullscreen ||
+      (window.innerHeight && window.screen.height && window.innerHeight >= window.screen.height - 50)
+    );
+
+    if (isFull) {
+      document.body.classList.add('tma-fullscreen');
+      document.body.classList.remove('tma-sheet');
+    } else {
+      document.body.classList.add('tma-sheet');
+      document.body.classList.remove('tma-fullscreen');
     }
   },
 
