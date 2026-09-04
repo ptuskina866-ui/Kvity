@@ -137,10 +137,12 @@ export const App = {
     if (slug) {
       document.getElementById('view-home').classList.add('hidden');
       document.getElementById('view-room').classList.remove('hidden');
+      TMA.showBackButton(() => navigateHome());
       await this.loadRoom(slug);
     } else {
       document.getElementById('view-home').classList.remove('hidden');
       document.getElementById('view-room').classList.add('hidden');
+      TMA.hideBackButton();
       this.renderHomeView();
     }
   },
@@ -185,7 +187,7 @@ export const App = {
 
             <div>
               <label class="block text-xs font-bold text-forest-muted mb-1.5">Куда едем или что празднуем?</label>
-              <input type="text" id="new-room-title" placeholder="например: Шашлыки, Бар, Дача"
+              <input type="text" id="new-room-title" placeholder="например: Шашлыки, Бар, Дача" autocomplete="off" enterkeyhint="next"
                 class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-semibold placeholder-forest-muted/50 focus:outline-none transition">
             </div>
 
@@ -207,8 +209,11 @@ export const App = {
               </div>
               
               <div class="flex flex-wrap gap-1.5 p-2 liquid-glass-input rounded-2xl min-h-[52px] items-center" id="tags-container">
-                <input type="text" id="participant-input" placeholder="Имя и Enter..."
+                <input type="text" id="participant-input" placeholder="Имя и Enter..." autocomplete="off" enterkeyhint="done"
                   class="bg-transparent border-none text-forest-dark text-sm font-semibold focus:outline-none px-2.5 py-1 flex-1 min-w-[110px]">
+                <button type="button" id="btn-add-tag-inline" class="w-8 h-8 rounded-xl bg-forest-dark text-white font-bold flex items-center justify-center shrink-0 hover:bg-forest-dark-hover active:scale-95 transition" title="Добавить">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                </button>
               </div>
             </div>
 
@@ -324,6 +329,22 @@ export const App = {
       }
     });
 
+    document.getElementById('btn-add-tag-inline')?.addEventListener('click', () => {
+      if (input.value.trim()) {
+        addParticipantName(input.value);
+        input.value = '';
+        TMA.haptic.impact('light');
+        input.focus();
+      }
+    });
+
+    input.addEventListener('blur', () => {
+      if (input.value.trim()) {
+        addParticipantName(input.value);
+        input.value = '';
+      }
+    });
+
     document.getElementById('btn-create-room')?.addEventListener('click', async () => {
       const title = document.getElementById('new-room-title').value.trim();
       if (input.value.trim()) {
@@ -429,12 +450,20 @@ export const App = {
 
     if (tab === 'expenses') {
       tabExpenses.classList.remove('hidden');
+      tabExpenses.classList.remove('tab-fade-in');
+      void tabExpenses.offsetWidth;
+      tabExpenses.classList.add('tab-fade-in');
+
       tabBalances.classList.add('hidden');
       btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition';
       btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-forest-muted hover:text-forest-dark transition';
     } else {
       tabExpenses.classList.add('hidden');
       tabBalances.classList.remove('hidden');
+      tabBalances.classList.remove('tab-fade-in');
+      void tabBalances.offsetWidth;
+      tabBalances.classList.add('tab-fade-in');
+
       btnExp.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl text-forest-muted hover:text-forest-dark transition';
       btnBal.className = 'flex-1 py-2.5 text-xs font-bold rounded-2xl segment-item-active transition';
       this.renderBalancesTab();
@@ -509,19 +538,21 @@ export const App = {
     }).join('');
 
     container.querySelectorAll('.btn-delete-expense').forEach(btn => {
-      btn.addEventListener('click', async (e) => {
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const expenseId = btn.dataset.id;
-        if (confirm('Вы действительно хотите удалить этот расход?')) {
-          try {
-            await API.deleteExpense(room.slug, expenseId);
-            TMA.haptic.notification('success');
-            showToast('Расход удален');
-            await this.loadRoom(room.slug);
-          } catch (err) {
-            showToast('Ошибка при удалении расхода');
+        TMA.showConfirm('Вы действительно хотите удалить этот расход?', async (confirmed) => {
+          if (confirmed) {
+            try {
+              await API.deleteExpense(room.slug, expenseId);
+              TMA.haptic.notification('success');
+              showToast('Расход удален');
+              await this.loadRoom(room.slug);
+            } catch (err) {
+              showToast('Ошибка при удалении расхода');
+            }
           }
-        }
+        });
       });
     });
   },
@@ -587,6 +618,11 @@ export const App = {
           btn.addEventListener('click', () => {
             const reqs = btn.dataset.reqs;
             copyToClipboard(reqs, 'Реквизиты скопированы!');
+            const origHTML = btn.innerHTML;
+            btn.innerHTML = `<span class="text-emerald-700 font-extrabold">✓ Скопировано</span>`;
+            setTimeout(() => {
+              btn.innerHTML = origHTML;
+            }, 1500);
           });
         });
 
@@ -687,7 +723,8 @@ export const App = {
     }
 
     const updateSharePreview = () => {
-      const amount = parseFloat(document.getElementById('expense-amount').value) || 0;
+      const amountVal = document.getElementById('expense-amount').value.trim().replace(',', '.');
+      const amount = parseFloat(amountVal) || 0;
       const checked = splitsContainer.querySelectorAll('input[type="checkbox"]:checked');
       const count = checked.length;
       const previewEl = document.getElementById('expense-split-preview');
@@ -739,7 +776,8 @@ export const App = {
     const submitBtn = document.getElementById('btn-save-expense');
     submitBtn.onclick = async () => {
       const title = document.getElementById('expense-title').value.trim();
-      const amount = parseFloat(document.getElementById('expense-amount').value);
+      const amountVal = document.getElementById('expense-amount').value.trim().replace(',', '.');
+      const amount = parseFloat(amountVal);
       const payerId = parseInt(selectPayer.value);
       const splitCheckboxes = splitsContainer.querySelectorAll('.expense-split-checkbox:checked');
       const splits = Array.from(splitCheckboxes).map(cb => parseInt(cb.value));
@@ -783,7 +821,13 @@ export const App = {
     };
 
     this.openModal('modal-add-expense');
-    document.getElementById('expense-amount').focus();
+    setTimeout(() => {
+      const input = document.getElementById('expense-amount');
+      if (input && !document.getElementById('modal-add-expense').classList.contains('hidden')) {
+        input.focus();
+        input.select();
+      }
+    }, 220);
   },
 
   // --- МОДАЛЬНОЕ ОКНО: УЧАСТНИКИ И РЕКВИЗИТЫ ---
@@ -804,7 +848,7 @@ export const App = {
             </div>
             <div>
               <div class="flex gap-2">
-                <input type="text" id="reqs-p-${p.id}" value="${p.payment_details || ''}" placeholder="Номер карты или телефон для СБП / ЕРИП"
+                <input type="text" id="reqs-p-${p.id}" value="${p.payment_details || ''}" placeholder="Номер карты или телефон для СБП / ЕРИП" autocomplete="off"
                   class="w-full liquid-glass-input rounded-xl px-3 py-2 text-xs font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
                 <button type="button" class="btn-save-req px-3.5 py-2 btn-forest-glass rounded-xl text-xs font-bold shrink-0 transition" data-id="${p.id}">
                   Сохранить
@@ -818,7 +862,7 @@ export const App = {
       <div class="pt-3 border-t border-forest-dark/10">
         <label class="block text-xs font-bold text-forest-muted mb-1.5">Добавить нового участника</label>
         <div class="flex gap-2">
-          <input type="text" id="new-participant-name" placeholder="Имя нового участника"
+          <input type="text" id="new-participant-name" placeholder="Имя нового участника" autocomplete="off" enterkeyhint="done"
             class="flex-1 liquid-glass-input rounded-2xl px-4 py-2.5 text-xs font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
           <button type="button" id="btn-add-new-participant" class="px-4 py-2.5 btn-forest-primary rounded-2xl text-xs font-bold transition">
             + Добавить
@@ -899,11 +943,18 @@ export const App = {
     if (!modal) return;
     modal.classList.remove('hidden');
     document.body.classList.add('modal-open');
+    TMA.showBackButton(() => this.closeAllModals());
   },
 
   closeAllModals() {
     document.querySelectorAll('.app-modal').forEach(m => m.classList.add('hidden'));
     document.body.classList.remove('modal-open');
+    const slug = getSlugFromUrl();
+    if (slug) {
+      TMA.showBackButton(() => navigateHome());
+    } else {
+      TMA.hideBackButton();
+    }
   }
 };
 

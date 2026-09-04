@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
   <title>Квиты — совместные расходы и деление счетов</title>
   
   <!-- PWA и мета-теги -->
@@ -53,7 +53,7 @@
   <main id="view-home" class="flex-1"></main>
 
   <!-- Страница комнаты (Сбор) -->
-  <main id="view-room" class="flex-1 hidden pb-36">
+  <main id="view-room" class="flex-1 hidden pb-12">
     <!-- Индикатор загрузки -->
     <div id="room-loading" class="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
       <div class="w-10 h-10 border-3 border-white/40 border-t-forest-dark rounded-full animate-spin"></div>
@@ -62,9 +62,9 @@
 
     <!-- Контент комнаты -->
     <div id="room-content" class="hidden max-w-md mx-auto p-4 space-y-5">
-      <!-- Навигационная панель -->
-      <header class="flex items-center justify-between safe-top-padding">
-        <a href="#" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-forest-dark hover:text-black transition active:scale-95" title="На главную">
+      <!-- Навигационная панель: зафиксирована и не улетает при скролле -->
+      <header class="sticky top-0 z-30 flex items-center justify-between py-2.5 px-4 -mx-4 backdrop-blur-2xl bg-[#a7bfa8]/85 border-b border-white/20 transition-all safe-top-padding">
+        <a href="#" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-forest-dark hover:text-black transition active:scale-95 shrink-0" title="На главную">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </a>
 
@@ -73,7 +73,7 @@
           <h1 id="room-title" class="text-base font-extrabold text-forest-dark truncate">Название сбора</h1>
         </div>
 
-        <button id="btn-share-room" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-forest-dark hover:text-black transition active:scale-95" title="Поделиться">
+        <button id="btn-share-room" class="w-11 h-11 rounded-2xl liquid-glass flex items-center justify-center text-forest-dark hover:text-black transition active:scale-95 shrink-0" title="Поделиться">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
         </button>
       </header>
@@ -89,10 +89,10 @@
         </div>
 
         <div>
-          <div id="summary-total-spent" class="text-4xl font-black text-forest-dark tracking-tight">0 ₽</div>
+          <div id="summary-total-spent" class="text-4xl font-black text-forest-dark tracking-tight">0 Br</div>
           <div class="flex items-center gap-2 mt-2 text-xs text-forest-muted font-medium">
             <span>В среднем:</span>
-            <span id="summary-avg-spent" class="font-bold text-forest-dark">0 ₽</span>
+            <span id="summary-avg-spent" class="font-bold text-forest-dark">0 Br</span>
             <span class="text-forest-muted/40">•</span>
             <span id="summary-expense-count">0 трат</span>
           </div>
@@ -128,6 +128,8 @@
           <h2 class="text-xs font-extrabold uppercase tracking-wider text-forest-muted">История операций</h2>
         </div>
         <div id="expenses-list-container" class="space-y-2.5"></div>
+        <!-- Распорка под плавающую кнопку -->
+        <div class="h-28" aria-hidden="true"></div>
       </section>
 
       <!-- Вкладка 2: Балансы и взаиморасчеты -->
@@ -145,6 +147,8 @@
           <h2 class="text-xs font-extrabold uppercase tracking-wider text-forest-muted px-1">Баланс участников</h2>
           <div id="net-balances-container" class="space-y-2"></div>
         </div>
+        <!-- Распорка под плавающую кнопку -->
+        <div class="h-28" aria-hidden="true"></div>
       </section>
     </div>
 
@@ -159,7 +163,7 @@
 
   <!-- Модальное окно: Добавить расход -->
   <div id="modal-add-expense" class="app-modal fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden modal-backdrop bg-forest-dark/45 backdrop-blur-md">
-    <div class="liquid-glass-card border-t sm:border border-white/90 rounded-t-[36px] sm:rounded-[36px] w-full max-w-md p-6 space-y-5 animate-liquid-sheet max-h-[92vh] overflow-y-auto">
+    <div class="liquid-glass-card border-t sm:border border-white/90 rounded-t-[36px] sm:rounded-[36px] w-full max-w-md p-6 space-y-5 animate-liquid-sheet max-h-[88vh] overflow-y-auto pb-10">
       <div class="w-10 h-1.5 bg-forest-dark/20 rounded-full mx-auto mb-1"></div>
 
       <div class="flex items-center justify-between pb-1">
@@ -170,13 +174,13 @@
       <div class="space-y-4">
         <div class="p-5 rounded-3xl liquid-glass text-center border border-white/90">
           <label class="block text-xs font-semibold text-forest-muted mb-1">Сумма расхода</label>
-          <input type="number" step="0.01" min="0" id="expense-amount" placeholder="0"
+          <input type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" id="expense-amount" placeholder="0" autocomplete="off"
             class="w-full bg-transparent text-center text-4xl font-black text-forest-dark placeholder-forest-muted/40 focus:outline-none tracking-tight">
         </div>
 
         <div>
           <label class="block text-xs font-bold text-forest-muted mb-1.5">На что потрачено?</label>
-          <input type="text" id="expense-title" placeholder="например: Шашлыки, Бар, Такси"
+          <input type="text" id="expense-title" placeholder="например: Шашлыки, Бар, Такси" autocomplete="off" enterkeyhint="done"
             class="w-full liquid-glass-input rounded-2xl px-4 py-3.5 text-sm font-semibold placeholder-forest-muted/50 focus:outline-none transition">
         </div>
 

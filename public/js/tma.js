@@ -113,5 +113,46 @@ export const TMA = {
 
   getUserId() {
     return this.user?.id || null;
+  },
+
+  // Управление кнопкой «Назад» в Telegram
+  _backCallback: null,
+  showBackButton(callback) {
+    const tg = window.Telegram?.WebApp;
+    if (tg?.BackButton) {
+      if (this._backCallback) {
+        tg.BackButton.offClick(this._backCallback);
+      }
+      this._backCallback = () => {
+        this.haptic.impact('light');
+        if (callback) callback();
+      };
+      tg.BackButton.onClick(this._backCallback);
+      tg.BackButton.show();
+    }
+  },
+
+  hideBackButton() {
+    const tg = window.Telegram?.WebApp;
+    if (tg?.BackButton) {
+      if (this._backCallback) {
+        tg.BackButton.offClick(this._backCallback);
+        this._backCallback = null;
+      }
+      tg.BackButton.hide();
+    }
+  },
+
+  // Нативное диалоговое окно подтверждения Telegram с fallback на confirm
+  showConfirm(message, callback) {
+    const tg = window.Telegram?.WebApp;
+    if (tg && typeof tg.showConfirm === 'function') {
+      tg.showConfirm(message, (confirmed) => {
+        callback(Boolean(confirmed));
+      });
+    } else {
+      const confirmed = window.confirm(message);
+      callback(confirmed);
+    }
   }
 };

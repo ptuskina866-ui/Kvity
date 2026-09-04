@@ -218,10 +218,17 @@ input, textarea, .selectable {
   mix-blend-mode: multiply;
 }
 
+/* Защита от навязчивого авто-зума на iOS при фокусе в инпуты */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
 /* Плавающая кнопка внизу */
 .floating-dock-wrapper {
   position: fixed;
-  bottom: 24px;
+  bottom: max(20px, calc(16px + var(--safe-bottom)));
   left: 0;
   right: 0;
   pointer-events: none;
@@ -258,6 +265,22 @@ input, textarea, .selectable {
   animation: liquidSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Плавный переход содержимого табов */
+.tab-fade-in {
+  animation: tabFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -265,3 +288,4 @@ input, textarea, .selectable {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
