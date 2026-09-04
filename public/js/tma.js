@@ -9,20 +9,28 @@ export const TMA = {
     const tg = window.Telegram?.WebApp;
     if (tg && tg.initData) {
       this.isTMA = true;
+      document.body.classList.add('tma-app');
       try {
         tg.ready();
         tg.expand();
         
-        // Синхронизируем цвета темы Telegram
+        // Синхронизируем цвета темы и безопасные зоны Telegram
         this.applyThemeColors();
+        this.syncSafeArea();
 
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
           this.user = tg.initDataUnsafe.user;
         }
 
-        // Слушатель изменения темы Telegram
-        tg.onEvent('themeChanged', () => {
+        // Слушатели событий Telegram WebApp
+        tg.onEvent?.('themeChanged', () => {
           this.applyThemeColors();
+        });
+        tg.onEvent?.('safeAreaChanged', () => {
+          this.syncSafeArea();
+        });
+        tg.onEvent?.('contentSafeAreaChanged', () => {
+          this.syncSafeArea();
         });
       } catch (e) {
         console.warn('Ошибка инициализации Telegram WebApp:', e);
@@ -30,6 +38,22 @@ export const TMA = {
     } else {
       // Обычный браузер или PWA
       this.isTMA = false;
+    }
+  },
+
+  syncSafeArea() {
+    const tg = window.Telegram?.WebApp;
+    if (!tg) return;
+
+    const root = document.documentElement;
+    const topInset = tg.contentSafeAreaInset?.top ?? tg.safeAreaInset?.top;
+    const bottomInset = tg.contentSafeAreaInset?.bottom ?? tg.safeAreaInset?.bottom;
+
+    if (topInset !== undefined && topInset > 0) {
+      root.style.setProperty('--tg-content-safe-area-inset-top', `${topInset}px`);
+    }
+    if (bottomInset !== undefined && bottomInset > 0) {
+      root.style.setProperty('--tg-content-safe-area-inset-bottom', `${bottomInset}px`);
     }
   },
 

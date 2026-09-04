@@ -51,6 +51,39 @@ body {
   overscroll-behavior-y: none;
 }
 
+/* Безопасные отступы для iOS Notch / Dynamic Island и кнопок Telegram TMA */
+:root {
+  --safe-top: max(var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  --safe-bottom: max(var(--tg-content-safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
+}
+
+.app-safe-top {
+  padding-top: max(var(--safe-top), 14px);
+}
+
+/* При открытии в Telegram Mini App учитываем плавающие кнопки Закрыть */
+body.tma-app .app-safe-top {
+  padding-top: max(var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px) + 38px, 56px);
+}
+
+/* Блокировка фонового скролла при открытых шторках */
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+  height: 100% !important;
+}
+
+.app-modal {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-modal > div {
+  overscroll-behavior: contain;
+}
+
 input, textarea, .selectable {
   user-select: text;
 }

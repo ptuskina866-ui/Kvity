@@ -125,6 +125,11 @@ export const App = {
           this.closeAllModals();
         }
       });
+      backdrop.addEventListener('touchmove', (e) => {
+        if (e.target === backdrop) {
+          e.preventDefault();
+        }
+      }, { passive: false });
     });
 
     document.querySelectorAll('.btn-close-modal').forEach(btn => {
@@ -153,17 +158,9 @@ export const App = {
     const tgUser = TMA.getUserFirstName();
 
     container.innerHTML = `
-      <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
-        <div class="space-y-6 pt-2">
+      <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between app-safe-top">
+        <div class="space-y-5">
           
-          <!-- Верхняя панель со справкой -->
-          <div class="flex justify-end px-1 pt-1">
-            <button id="btn-how-it-works" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full liquid-glass text-xs font-bold text-forest-dark border border-white hover:bg-white transition active:scale-95 shadow-xs">
-              <svg class="w-3.5 h-3.5 text-forest-muted" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-4m0-4h.01"/></svg>
-              <span>Как это работает?</span>
-            </button>
-          </div>
-
           <!-- Главный типографический блок -->
           <div class="pt-2 px-2 text-center">
             <h1 class="text-[28px] sm:text-[32px] font-black text-forest-dark leading-[1.2] tracking-[-0.03em]">
@@ -172,6 +169,12 @@ export const App = {
             <p class="text-[13px] text-forest-dark/75 font-medium mt-2.5 leading-snug max-w-[290px] mx-auto">
               Быстрый расчет чеков и долгов для встреч и поездок. Без регистрации.
             </p>
+            <div class="pt-3">
+              <button id="btn-how-it-works" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full liquid-glass text-xs font-bold text-forest-dark border border-white hover:bg-white transition active:scale-95 shadow-xs">
+                <svg class="w-3.5 h-3.5 text-forest-muted" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-4m0-4h.01"/></svg>
+                <span>Как это работает?</span>
+              </button>
+            </div>
           </div>
 
 
@@ -257,7 +260,7 @@ export const App = {
 
     document.getElementById('btn-how-it-works')?.addEventListener('click', () => {
       TMA.haptic.impact('light');
-      document.getElementById('modal-how-it-works')?.classList.remove('hidden');
+      this.openModal('modal-how-it-works');
     });
 
     document.querySelectorAll('.curr-btn').forEach(btn => {
@@ -781,7 +784,7 @@ export const App = {
       }
     };
 
-    modal.classList.remove('hidden');
+    this.openModal('modal-add-expense');
     document.getElementById('expense-amount').focus();
   },
 
@@ -871,7 +874,7 @@ export const App = {
       }
     });
 
-    modal.classList.remove('hidden');
+    this.openModal('modal-participants');
   },
 
   shareRoom() {
@@ -893,8 +896,18 @@ export const App = {
     }
   },
 
+  openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+    document.documentElement.classList.add('modal-open');
+  },
+
   closeAllModals() {
     document.querySelectorAll('.app-modal').forEach(m => m.classList.add('hidden'));
+    document.body.classList.remove('modal-open');
+    document.documentElement.classList.remove('modal-open');
   }
 };
 
