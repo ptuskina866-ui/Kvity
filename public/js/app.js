@@ -156,37 +156,24 @@ export const App = {
       <div class="max-w-md mx-auto p-4 pb-16 flex flex-col min-h-screen justify-between">
         <div class="space-y-6 pt-2">
           
-          <!-- Чистый текстовый логотип бренда -->
-          <div class="flex items-center justify-center pt-2 pb-1 gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-forest-dark flex items-center justify-center shadow-xs">
-              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
-              </svg>
-            </div>
-            <span class="text-xl font-black tracking-tight text-forest-dark">Квиты</span>
+          <!-- Верхняя панель со справкой -->
+          <div class="flex justify-end px-1 pt-1">
+            <button id="btn-how-it-works" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full liquid-glass text-xs font-bold text-forest-dark border border-white hover:bg-white transition active:scale-95 shadow-xs">
+              <svg class="w-3.5 h-3.5 text-forest-muted" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-4m0-4h.01"/></svg>
+              <span>Как это работает?</span>
+            </button>
           </div>
 
-          <!-- Главный типографический блок (насыщенный темно-зеленый в цвет кнопки) -->
-          <div class="pt-1 px-1 text-center">
-            <h1 class="text-3xl font-black text-forest-dark leading-[1.18] tracking-tight">
-              Разделите расходы,<br><span class="text-forest-muted">сохраните дружбу.</span>
+          <!-- Главный типографический блок -->
+          <div class="pt-2 px-2 text-center">
+            <h1 class="text-[28px] sm:text-[32px] font-black text-forest-dark leading-[1.2] tracking-[-0.03em]">
+              Разделите расходы,<br><span class="text-forest-dark/70 font-extrabold">сохраните дружбу.</span>
             </h1>
-            <p class="text-xs text-forest-muted font-semibold mt-2.5 leading-relaxed max-w-xs mx-auto">
-              Быстрый расчет чеков, счетов и долгов для поездок и вечеринок без обязательной регистрации.
+            <p class="text-[13px] text-forest-dark/75 font-medium mt-2.5 leading-snug max-w-[290px] mx-auto">
+              Быстрый расчет чеков и долгов для встреч и поездок. Без регистрации.
             </p>
           </div>
 
-          <!-- Парящие интерактивные плашки досуга: Шашлыки и Бар -->
-          <div class="flex items-center justify-center gap-2.5 py-1">
-            <div class="liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-sm animate-float">
-              <img src="images/kebab.webp" alt="Шашлыки" class="w-5 h-5 object-contain">
-              <span class="text-xs font-bold text-forest-dark">Шашлыки • 4 200 ₽</span>
-            </div>
-            <div class="liquid-glass px-3.5 py-2 rounded-2xl flex items-center gap-2 border border-white shadow-sm animate-float-delayed">
-              <img src="images/bar.webp" alt="Бар" class="w-5 h-5 object-contain">
-              <span class="text-xs font-bold text-forest-dark">Бар • 1 850 ₽</span>
-            </div>
-          </div>
 
           <!-- Форма создания сбора в ультралегком Liquid Glass -->
           <div class="liquid-glass-card rounded-[32px] p-6 space-y-5">
@@ -250,6 +237,13 @@ export const App = {
               </div>
             </div>
           ` : ''}
+
+          <!-- Стильный микро-футер -->
+          <footer class="pt-6 pb-2 text-center text-xs font-semibold text-forest-dark/60 flex items-center justify-center gap-2">
+            <a href="https://overweb.by" target="_blank" rel="noopener" class="hover:text-forest-dark transition underline underline-offset-4 decoration-forest-dark/20 hover:decoration-forest-dark">Разработано overweb.by</a>
+            <span class="text-forest-dark/30">•</span>
+            <a href="https://t.me/nu_posmotr1m" target="_blank" rel="noopener" class="hover:text-forest-dark transition underline underline-offset-4 decoration-forest-dark/20 hover:decoration-forest-dark">Обратная связь</a>
+          </footer>
         </div>
       </div>
     `;
@@ -260,6 +254,11 @@ export const App = {
   bindHomeEvents() {
     let selectedCurrency = 'RUB';
     const participants = [];
+
+    document.getElementById('btn-how-it-works')?.addEventListener('click', () => {
+      TMA.haptic.impact('light');
+      document.getElementById('modal-how-it-works')?.classList.remove('hidden');
+    });
 
     document.querySelectorAll('.curr-btn').forEach(btn => {
       btn.addEventListener('click', () => {
