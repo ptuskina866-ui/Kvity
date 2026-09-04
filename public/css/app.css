@@ -213,11 +213,18 @@ input, textarea, .selectable {
   mix-blend-mode: multiply;
 }
 
-/* Защита от навязчивого авто-зума на iOS при фокусе в инпуты */
+/* Защита от навязчивого авто-зума на iOS (iOS зумит только если шрифт меньше 16px) */
 @media screen and (max-width: 768px) {
-  input, select, textarea {
+  input:not(#expense-amount), select, textarea {
     font-size: 16px !important;
   }
+}
+
+/* Поле крупной суммы расхода: крупное, заметное и удобное для тапа */
+#expense-amount {
+  font-size: 2.75rem !important; /* 44px */
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
 }
 
 /* Плавающая кнопка внизу */
