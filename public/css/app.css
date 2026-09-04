@@ -84,23 +84,18 @@ body.modal-open {
 }
 
 .safe-top-padding {
-  padding-top: max(var(--safe-top), 16px);
+  padding-top: max(var(--tma-safe-top, 12px), 12px);
   transition: padding-top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Telegram: неполный экран (сверху нативная белая шапка Telegram) */
+/* Telegram: стандартный режим (сверху нативная белая шапка Telegram) */
 body.tma-sheet .safe-top-padding {
-  padding-top: 14px !important;
+  padding-top: 12px !important;
 }
 
-/* Telegram: полноэкранный режим (сверху плавающие кнопки Закрыть и ...) */
-body.tma-fullscreen .safe-top-padding,
-body.tma-app:not(.tma-sheet) .safe-top-padding {
-  padding-top: max(
-    var(--tma-safe-top, 0px),
-    calc(env(safe-area-inset-top, 0px) + 52px),
-    92px
-  );
+/* Telegram: полноэкранный режим (сверху плавающие системные кнопки) */
+body.tma-fullscreen .safe-top-padding {
+  padding-top: max(var(--tma-safe-top, 60px), 60px) !important;
 }
 
 input, textarea, .selectable {

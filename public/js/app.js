@@ -229,7 +229,7 @@ export const App = {
               <h3 class="text-xs font-bold uppercase tracking-wider text-forest-muted px-1">Недавние события</h3>
               <div class="space-y-2">
                 ${recent.map(r => `
-                  <a href="#/r/${r.slug}" class="liquid-glass p-4 rounded-2xl flex items-center justify-between hover:bg-white transition group">
+                  <a href="#/r/${r.slug}" class="liquid-glass p-4 rounded-2xl flex items-center justify-between active:scale-98 transition group">
                     <div>
                       <div class="font-bold text-forest-dark text-sm">${r.title}</div>
                       <div class="text-xs text-forest-muted/70 mt-0.5">Токен: ${r.slug} • Валюта: ${r.base_currency}</div>
@@ -502,7 +502,7 @@ export const App = {
       }) : '';
 
       return `
-        <div class="liquid-glass rounded-2xl p-4 flex items-center justify-between gap-3.5 hover:bg-white transition group">
+        <div class="liquid-glass rounded-2xl p-4 flex items-center justify-between gap-3.5 transition group">
           <div class="flex items-center gap-3.5 flex-1 min-w-0">
             <div class="w-11 h-11 rounded-2xl bg-white/80 text-forest-dark flex items-center justify-center shrink-0 border border-white shadow-xs">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7m0 0H7m10 0v10"/></svg>
@@ -581,7 +581,7 @@ export const App = {
           const reqs = tx.to_payment_details;
 
           return `
-            <div class="liquid-glass-card rounded-[28px] p-4.5 space-y-3.5">
+            <div class="liquid-glass-card rounded-3xl p-4 space-y-3">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 text-sm font-extrabold">
                   <span class="text-rose-600">${tx.from}</span>
@@ -594,18 +594,18 @@ export const App = {
               </div>
 
               ${reqs ? `
-                <div class="liquid-glass rounded-xl p-2.5 flex items-center justify-between gap-2 border border-white">
-                  <div class="text-xs truncate flex-1">
+                <div class="bg-white/80 rounded-2xl p-3 flex items-center justify-between gap-2 border border-white shadow-xs">
+                  <div class="text-xs truncate flex-1 min-w-0">
                     <span class="text-forest-muted font-medium">Реквизиты:</span>
                     <span class="font-bold text-forest-dark ml-1 selectable">${reqs}</span>
                   </div>
-                  <button class="btn-copy-reqs px-3 py-1.5 btn-forest-glass rounded-lg text-xs font-bold transition flex items-center gap-1.5 shrink-0" data-reqs="${reqs}">
+                  <button class="btn-copy-reqs px-3.5 py-2 btn-forest-glass rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0" data-reqs="${reqs}">
                     <span>Копировать</span>
                     <svg class="w-3.5 h-3.5 text-forest-dark" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
                   </button>
                 </div>
               ` : `
-                <div class="text-xs text-forest-muted flex items-center justify-between pt-1">
+                <div class="text-xs text-forest-muted flex items-center justify-between pt-1 border-t border-forest-dark/5">
                   <span>Реквизиты не указаны</span>
                   <button class="text-forest-dark font-extrabold hover:underline btn-add-reqs-for" data-pid="${tx.to_id}">+ Добавить реквизиты</button>
                 </div>
@@ -747,9 +747,9 @@ export const App = {
       </div>
       <div class="space-y-1.5 max-h-44 overflow-y-auto pr-1">
         ${room.participants.map(p => `
-          <label class="flex items-center justify-between p-3 rounded-2xl liquid-glass hover:bg-white cursor-pointer transition">
+          <label class="flex items-center justify-between p-3 rounded-2xl liquid-glass active:scale-[0.99] cursor-pointer transition">
             <span class="text-xs font-black text-forest-dark">${p.name}</span>
-            <input type="checkbox" value="${p.id}" checked class="expense-split-checkbox w-4.5 h-4.5 rounded-lg text-forest-dark focus:ring-forest-dark bg-white border-forest-dark/20">
+            <input type="checkbox" value="${p.id}" checked class="expense-split-checkbox w-5 h-5 rounded-lg text-forest-dark focus:ring-forest-dark bg-white border-forest-dark/20">
           </label>
         `).join('')}
       </div>
@@ -840,62 +840,91 @@ export const App = {
     const container = document.getElementById('participants-manage-container');
 
     container.innerHTML = `
-      <div class="space-y-3 max-h-72 overflow-y-auto pr-1">
+      <div class="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
         ${room.participants.map(p => `
-          <div class="p-3.5 rounded-2xl liquid-glass space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-forest-dark">${p.name}</span>
+          <div class="liquid-glass rounded-2xl p-3.5 space-y-2 border border-white/80">
+            <div class="flex items-center justify-between px-0.5">
+              <span class="text-sm font-extrabold text-forest-dark">${p.name}</span>
+              <span class="text-[11px] font-semibold ${p.payment_details ? 'text-emerald-700 font-bold' : 'text-forest-muted/50'}">
+                ${p.payment_details ? '✓ Указаны' : 'Не указаны'}
+              </span>
             </div>
-            <div>
-              <div class="flex gap-2">
-                <input type="text" id="reqs-p-${p.id}" value="${p.payment_details || ''}" placeholder="Номер карты или телефон для СБП / ЕРИП" autocomplete="off"
-                  class="w-full liquid-glass-input rounded-xl px-3 py-2 text-xs font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
-                <button type="button" class="btn-save-req px-3.5 py-2 btn-forest-glass rounded-xl text-xs font-bold shrink-0 transition" data-id="${p.id}">
-                  Сохранить
-                </button>
-              </div>
-            </div>
+            <input type="text" data-pid="${p.id}" value="${p.payment_details || ''}" placeholder="Номер карты или телефон для СБП / ЕРИП" autocomplete="off"
+              class="participant-req-input w-full liquid-glass-input rounded-xl px-3.5 py-2.5 text-sm font-medium text-forest-dark placeholder-forest-muted/40 focus:outline-none transition">
           </div>
         `).join('')}
       </div>
 
-      <div class="pt-3 border-t border-forest-dark/10">
-        <label class="block text-xs font-bold text-forest-muted mb-1.5">Добавить нового участника</label>
-        <div class="flex gap-2">
-          <input type="text" id="new-participant-name" placeholder="Имя нового участника" autocomplete="off" enterkeyhint="done"
-            class="flex-1 liquid-glass-input rounded-2xl px-4 py-2.5 text-xs font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
-          <button type="button" id="btn-add-new-participant" class="px-4 py-2.5 btn-forest-primary rounded-2xl text-xs font-bold transition">
-            + Добавить
-          </button>
+      <div class="pt-3 border-t border-forest-dark/10 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-forest-muted mb-1.5">Добавить нового участника</label>
+          <div class="flex gap-2">
+            <input type="text" id="new-participant-name" placeholder="Имя нового участника" autocomplete="off" enterkeyhint="done"
+              class="flex-1 liquid-glass-input rounded-2xl px-4 py-3 text-sm font-medium text-forest-dark placeholder-forest-muted/50 focus:outline-none transition">
+            <button type="button" id="btn-add-new-participant" class="px-5 py-3 btn-forest-primary rounded-2xl text-xs font-bold transition shrink-0">
+              + Добавить
+            </button>
+          </div>
         </div>
+
+        <button type="button" id="btn-save-all-participants" class="w-full py-4 btn-forest-primary rounded-2xl text-sm font-bold tracking-tight shadow-md flex items-center justify-center gap-2">
+          <span>Сохранить реквизиты</span>
+        </button>
       </div>
     `;
 
-    container.querySelectorAll('.btn-save-req').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = parseInt(btn.dataset.id);
-        const inputVal = document.getElementById(`reqs-p-${id}`).value.trim();
+    // Сохранение реквизитов участников одной кнопкой
+    const saveAllRequisites = async (closeOnComplete = true) => {
+      const inputs = container.querySelectorAll('.participant-req-input');
+      const savePromises = [];
 
-        btn.disabled = true;
-        btn.textContent = '...';
+      inputs.forEach(input => {
+        const id = parseInt(input.dataset.pid);
+        const val = input.value.trim();
+        const participant = room.participants.find(p => p.id === id);
+        if (participant && (participant.payment_details || '') !== val) {
+          savePromises.push(API.saveParticipant(room.slug, { id, payment_details: val }));
+        }
+      });
 
+      if (savePromises.length > 0) {
+        const btn = document.getElementById('btn-save-all-participants');
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<span class="animate-spin mr-2">⏳</span> Сохранение...';
+        }
         try {
-          await API.saveParticipant(room.slug, {
-            id,
-            payment_details: inputVal
-          });
+          await Promise.all(savePromises);
           TMA.haptic.notification('success');
           showToast('Реквизиты сохранены');
           await this.loadRoom(room.slug);
         } catch (e) {
           showToast('Ошибка при сохранении реквизитов');
         } finally {
-          btn.disabled = false;
-          btn.textContent = 'Сохранить';
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>Сохранить реквизиты</span>';
+          }
         }
+      }
+
+      if (closeOnComplete) {
+        this.closeAllModals();
+      }
+    };
+
+    document.getElementById('btn-save-all-participants')?.addEventListener('click', () => {
+      saveAllRequisites(true);
+    });
+
+    // Сохранение при выходе из фокуса
+    container.querySelectorAll('.participant-req-input').forEach(input => {
+      input.addEventListener('change', () => {
+        saveAllRequisites(false);
       });
     });
 
+    // Добавление участника
     document.getElementById('btn-add-new-participant')?.addEventListener('click', async () => {
       const nameInput = document.getElementById('new-participant-name');
       const name = nameInput.value.trim();

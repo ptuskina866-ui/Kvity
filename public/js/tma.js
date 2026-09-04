@@ -43,11 +43,9 @@ export const TMA = {
     const tg = window.Telegram?.WebApp;
     if (!this.isTMA) return;
 
-    // В полноэкранном режиме окно занимает почти весь физический экран
-    const isFull = Boolean(
-      tg?.isFullscreen ||
-      (window.innerHeight && window.screen.height && window.innerHeight >= window.screen.height - 50)
-    );
+    // В полноэкранном режиме Telegram убирает системную белую шапку
+    // В обычном режиме шапка Telegram находится ВНЕ вебвью
+    const isFull = Boolean(tg?.isFullscreen);
 
     if (isFull) {
       document.body.classList.add('tma-fullscreen');
@@ -63,10 +61,15 @@ export const TMA = {
     if (!tg) return;
     const root = document.documentElement;
 
-    // Системные кнопки Telegram (Закрыть и ...) занимают ~84-90px от верха экрана
-    const reportedTop = tg.contentSafeAreaInset?.top || tg.safeAreaInset?.top || 0;
-    const topInset = reportedTop >= 70 ? reportedTop : 88;
-    const bottomInset = tg.contentSafeAreaInset?.bottom || tg.safeAreaInset?.bottom || 0;
+    // Если Telegram в полноэкранном режиме, нужны отступы под плавающие кнопки
+    // В стандартном режиме вебвью начинается ровно под нативной шапкой Telegram, отступ 12px
+    let topInset = 12;
+    if (tg.isFullscreen) {
+      const reportedTop = tg.safeAreaInset?.top || tg.contentSafeAreaInset?.top || 0;
+      topInset = reportedTop >= 50 ? reportedTop : 56;
+    }
+
+    const bottomInset = tg.safeAreaInset?.bottom || tg.contentSafeAreaInset?.bottom || 0;
 
     root.style.setProperty('--tma-safe-top', `${topInset}px`);
     root.style.setProperty('--tma-safe-bottom', `${bottomInset}px`);
