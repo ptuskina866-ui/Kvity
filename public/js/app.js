@@ -130,6 +130,14 @@ export const App = {
     document.querySelectorAll('.btn-close-modal').forEach(btn => {
       btn.addEventListener('click', () => this.closeAllModals());
     });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#btn-privacy') || e.target.closest('.btn-open-privacy')) {
+        e.preventDefault();
+        TMA.haptic.impact('light');
+        this.openModal('modal-privacy');
+      }
+    });
   },
 
   async handleRoute() {
@@ -244,10 +252,12 @@ export const App = {
           ` : ''}
 
           <!-- Стильный микро-футер -->
-          <footer class="pt-6 pb-2 text-center text-xs font-semibold text-forest-dark/60 flex items-center justify-center gap-2">
+          <footer class="pt-6 pb-2 text-center text-xs font-semibold text-forest-dark/60 flex items-center justify-center flex-wrap gap-x-2 gap-y-1">
             <a href="https://overweb.by" target="_blank" rel="noopener" class="hover:text-forest-dark transition underline underline-offset-4 decoration-forest-dark/20 hover:decoration-forest-dark">Разработано overweb.by</a>
             <span class="text-forest-dark/30">•</span>
             <a href="https://t.me/nu_posmotr1m" target="_blank" rel="noopener" class="hover:text-forest-dark transition underline underline-offset-4 decoration-forest-dark/20 hover:decoration-forest-dark">Обратная связь</a>
+            <span class="text-forest-dark/30">•</span>
+            <button type="button" id="btn-privacy" class="hover:text-forest-dark transition underline underline-offset-4 decoration-forest-dark/20 hover:decoration-forest-dark cursor-pointer">Конфиденциальность</button>
           </footer>
         </div>
       </div>

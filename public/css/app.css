@@ -188,30 +188,6 @@ input, textarea, .selectable {
   box-shadow: 0 2px 8px rgba(13, 40, 32, 0.08);
 }
 
-/* Парящие 3D элементы и плавные анимации */
-@keyframes floatUpAndDown {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-
-@keyframes floatReverse {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(7px) rotate(-1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-
-.animate-float {
-  animation: floatUpAndDown 5s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: floatReverse 6s ease-in-out infinite 0.5s;
-}
-
-.blend-multiply {
-  mix-blend-mode: multiply;
-}
 
 /* Защита от навязчивого авто-зума на iOS (iOS зумит только если шрифт меньше 16px) */
 @media screen and (max-width: 768px) {
