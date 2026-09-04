@@ -9,29 +9,23 @@ export const TMA = {
     const tg = window.Telegram?.WebApp;
     if (tg && tg.initData) {
       this.isTMA = true;
-      document.body.classList.add('tma-app');
       try {
         tg.ready();
         tg.expand();
         
-        // Синхронизируем цвета темы и безопасные зоны Telegram
+        // Синхронизируем цвета темы Telegram
         this.applyThemeColors();
-        this.syncSafeArea();
+        this.applySafeAreas();
 
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
           this.user = tg.initDataUnsafe.user;
         }
 
-        // Слушатели событий Telegram WebApp
-        tg.onEvent?.('themeChanged', () => {
-          this.applyThemeColors();
-        });
-        tg.onEvent?.('safeAreaChanged', () => {
-          this.syncSafeArea();
-        });
-        tg.onEvent?.('contentSafeAreaChanged', () => {
-          this.syncSafeArea();
-        });
+        // Слушатели изменения темы и безопасных зон Telegram
+        tg.onEvent('themeChanged', () => this.applyThemeColors());
+        tg.onEvent('safeAreaChanged', () => this.applySafeAreas());
+        tg.onEvent('contentSafeAreaChanged', () => this.applySafeAreas());
+        tg.onEvent('fullscreenChanged', () => this.applySafeAreas());
       } catch (e) {
         console.warn('Ошибка инициализации Telegram WebApp:', e);
       }
@@ -41,20 +35,17 @@ export const TMA = {
     }
   },
 
-  syncSafeArea() {
+  applySafeAreas() {
     const tg = window.Telegram?.WebApp;
     if (!tg) return;
-
     const root = document.documentElement;
-    const topInset = tg.contentSafeAreaInset?.top ?? tg.safeAreaInset?.top;
-    const bottomInset = tg.contentSafeAreaInset?.bottom ?? tg.safeAreaInset?.bottom;
 
-    if (topInset !== undefined && topInset > 0) {
-      root.style.setProperty('--tg-content-safe-area-inset-top', `${topInset}px`);
-    }
-    if (bottomInset !== undefined && bottomInset > 0) {
-      root.style.setProperty('--tg-content-safe-area-inset-bottom', `${bottomInset}px`);
-    }
+    // В полноэкранном режиме на iOS Telegram системные кнопки занимают около 80px
+    const topInset = tg.contentSafeAreaInset?.top || tg.safeAreaInset?.top || (tg.isFullscreen ? 76 : 0);
+    const bottomInset = tg.contentSafeAreaInset?.bottom || tg.safeAreaInset?.bottom || 0;
+
+    root.style.setProperty('--tma-safe-top', `${topInset}px`);
+    root.style.setProperty('--tma-safe-bottom', `${bottomInset}px`);
   },
 
   applyThemeColors() {

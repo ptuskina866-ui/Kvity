@@ -26,6 +26,22 @@
   --glass-border: rgba(255, 255, 255, 0.75);
   --glass-shadow: 0 16px 36px -6px rgba(13, 40, 32, 0.07), 0 4px 12px -2px rgba(13, 40, 32, 0.03);
   --glass-inner-bevel: inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 1px 0 rgba(13, 40, 32, 0.03);
+
+  /* Безопасные отступы под системные панели Telegram и iOS (Dynamic Island) */
+  --safe-top: max(
+    var(--tma-safe-top, 0px),
+    var(--tg-content-safe-area-inset-top, 0px),
+    var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px),
+    0px
+  );
+  --safe-bottom: max(
+    var(--tma-safe-bottom, 0px),
+    var(--tg-content-safe-area-inset-bottom, 0px),
+    var(--tg-safe-area-inset-bottom, 0px),
+    env(safe-area-inset-bottom, 0px),
+    0px
+  );
 }
 
 * {
@@ -51,37 +67,24 @@ body {
   overscroll-behavior-y: none;
 }
 
-/* Безопасные отступы для iOS Notch / Dynamic Island и кнопок Telegram TMA */
-:root {
-  --safe-top: max(var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
-  --safe-bottom: max(var(--tg-content-safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
-}
-
-.app-safe-top {
-  padding-top: max(var(--safe-top), 14px);
-}
-
-/* При открытии в Telegram Mini App учитываем плавающие кнопки Закрыть */
-body.tma-app .app-safe-top {
-  padding-top: max(var(--tg-content-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px) + 38px, 56px);
-}
-
-/* Блокировка фонового скролла при открытых шторках */
-html.modal-open,
+/* Блокировка скролла фона при открытой модалке */
 body.modal-open {
   overflow: hidden !important;
-  overscroll-behavior: none !important;
-  touch-action: none !important;
-  height: 100% !important;
+  touch-action: none;
+  -webkit-overflow-scrolling: auto;
 }
 
 .app-modal {
   overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 
 .app-modal > div {
   overscroll-behavior: contain;
+}
+
+.safe-top-padding {
+  padding-top: max(var(--safe-top), 14px);
 }
 
 input, textarea, .selectable {
