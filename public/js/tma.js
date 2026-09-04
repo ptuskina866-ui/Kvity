@@ -9,6 +9,7 @@ export const TMA = {
     const tg = window.Telegram?.WebApp;
     if (tg && tg.initData) {
       this.isTMA = true;
+      document.body.classList.add('tma-app');
       try {
         tg.ready();
         tg.expand();
@@ -40,8 +41,9 @@ export const TMA = {
     if (!tg) return;
     const root = document.documentElement;
 
-    // В полноэкранном режиме на iOS Telegram системные кнопки занимают около 80px
-    const topInset = tg.contentSafeAreaInset?.top || tg.safeAreaInset?.top || (tg.isFullscreen ? 76 : 0);
+    // Системные кнопки Telegram (Закрыть и ...) занимают ~84-90px от верха экрана
+    const reportedTop = tg.contentSafeAreaInset?.top || tg.safeAreaInset?.top || 0;
+    const topInset = reportedTop >= 70 ? reportedTop : 88;
     const bottomInset = tg.contentSafeAreaInset?.bottom || tg.safeAreaInset?.bottom || 0;
 
     root.style.setProperty('--tma-safe-top', `${topInset}px`);

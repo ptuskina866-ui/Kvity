@@ -84,7 +84,15 @@ body.modal-open {
 }
 
 .safe-top-padding {
-  padding-top: max(var(--safe-top), 14px);
+  padding-top: max(var(--safe-top), 16px);
+}
+
+body.tma-app .safe-top-padding {
+  padding-top: max(
+    var(--tma-safe-top, 0px),
+    calc(env(safe-area-inset-top, 0px) + 52px),
+    92px
+  );
 }
 
 input, textarea, .selectable {
