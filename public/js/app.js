@@ -4,38 +4,17 @@ import { State } from './state.js';
 
 // --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
 
-function showToast(message, duration = 2500) {
-  const container = document.getElementById('toast-container');
-  if (!container) return;
-
-  const toast = document.createElement('div');
-  toast.className = 'liquid-glass-card text-forest-dark px-4 py-3 rounded-2xl shadow-xl border border-white flex items-center gap-3 animate-liquid-sheet text-xs font-bold';
-  toast.innerHTML = `
-    <span class="w-2.5 h-2.5 rounded-full bg-emerald-700 animate-ping"></span>
-    <span class="flex-1">${message}</span>
-  `;
-  container.appendChild(toast);
-
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-10px)';
-    toast.style.transition = 'all 0.25s ease';
-    setTimeout(() => toast.remove(), 250);
-  }, duration);
-}
-
-function copyToClipboard(text, successMsg = 'Скопировано в буфер обмена!') {
+function copyToClipboard(text) {
   if (navigator.clipboard && window.isSecureContext) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast(successMsg);
       TMA.haptic.notification('success');
-    }).catch(() => fallbackCopy(text, successMsg));
+    }).catch(() => fallbackCopy(text));
   } else {
-    fallbackCopy(text, successMsg);
+    fallbackCopy(text);
   }
 }
 
-function fallbackCopy(text, successMsg) {
+function fallbackCopy(text) {
   const textArea = document.createElement('textarea');
   textArea.value = text;
   textArea.style.position = 'fixed';
@@ -45,10 +24,9 @@ function fallbackCopy(text, successMsg) {
   textArea.select();
   try {
     document.execCommand('copy');
-    showToast(successMsg);
     TMA.haptic.notification('success');
   } catch (err) {
-    showToast('Не удалось скопировать. Скопируйте вручную.');
+    TMA.haptic.notification('error');
   }
   document.body.removeChild(textArea);
 }
@@ -363,13 +341,13 @@ export const App = {
       }
 
       if (!title) {
-        showToast('Пожалуйста, укажите название сбора');
+        document.getElementById('new-room-title')?.focus();
         TMA.haptic.notification('error');
         return;
       }
 
       if (participants.length < 2) {
-        showToast('Добавьте как минимум 2 участников для деления счетов');
+        document.getElementById('participant-input')?.focus();
         TMA.haptic.notification('error');
         return;
       }
@@ -384,7 +362,6 @@ export const App = {
         TMA.haptic.notification('success');
         navigateTo(room.slug);
       } catch (err) {
-        showToast(err.message || 'Ошибка создания сбора');
         TMA.haptic.notification('error');
         btn.disabled = false;
         btn.innerHTML = 'Создать сбор';
@@ -422,13 +399,12 @@ export const App = {
     } catch (err) {
       console.error('Ошибка загрузки комнаты:', err);
       if (State.currentRoom) {
-        showToast('Работаем в оффлайн-режиме (показаны кэшированные данные)');
         document.getElementById('room-loading')?.classList.add('hidden');
         document.getElementById('room-content')?.classList.remove('hidden');
         this.renderRoomHeader();
         this.renderExpensesTab();
       } else {
-        showToast('Не удалось загрузить сбор. Проверьте ссылку.');
+        TMA.haptic.notification('error');
         navigateHome();
       }
     }
@@ -556,10 +532,9 @@ export const App = {
             try {
               await API.deleteExpense(room.slug, expenseId);
               TMA.haptic.notification('success');
-              showToast('Расход удален');
               await this.loadRoom(room.slug);
             } catch (err) {
-              showToast('Ошибка при удалении расхода');
+              TMA.haptic.notification('error');
             }
           }
         });
@@ -793,15 +768,17 @@ export const App = {
       const splits = Array.from(splitCheckboxes).map(cb => parseInt(cb.value));
 
       if (!title) {
-        showToast('Введите название расхода');
+        document.getElementById('expense-title')?.focus();
+        TMA.haptic.notification('error');
         return;
       }
       if (!amount || amount <= 0) {
-        showToast('Введите корректную сумму расхода');
+        document.getElementById('expense-amount')?.focus();
+        TMA.haptic.notification('error');
         return;
       }
       if (splits.length === 0) {
-        showToast('Выберите хотя бы одного человека, на кого делить');
+        TMA.haptic.notification('error');
         return;
       }
 
@@ -818,11 +795,9 @@ export const App = {
         });
 
         TMA.haptic.notification('success');
-        showToast('Расход успешно добавлен!');
         this.closeAllModals();
         await this.loadRoom(room.slug);
       } catch (err) {
-        showToast(err.message || 'Ошибка сохранения');
         TMA.haptic.notification('error');
       } finally {
         submitBtn.disabled = false;
@@ -906,10 +881,9 @@ export const App = {
         try {
           await Promise.all(savePromises);
           TMA.haptic.notification('success');
-          showToast('Реквизиты сохранены');
           await this.loadRoom(room.slug);
         } catch (e) {
-          showToast('Ошибка при сохранении реквизитов');
+          TMA.haptic.notification('error');
         } finally {
           if (btn) {
             btn.disabled = false;
@@ -939,19 +913,19 @@ export const App = {
       const nameInput = document.getElementById('new-participant-name');
       const name = nameInput.value.trim();
       if (!name) {
-        showToast('Введите имя участника');
+        nameInput.focus();
+        TMA.haptic.notification('error');
         return;
       }
 
       try {
         await API.saveParticipant(room.slug, { name });
         TMA.haptic.notification('success');
-        showToast(`Участник ${name} добавлен`);
         nameInput.value = '';
         await this.loadRoom(room.slug);
         this.openParticipantsModal();
       } catch (err) {
-        showToast('Ошибка добавления участника');
+        TMA.haptic.notification('error');
       }
     });
 
@@ -973,7 +947,7 @@ export const App = {
         url
       }).catch(() => {});
     } else {
-      copyToClipboard(url, 'Ссылка на сбор скопирована!');
+      copyToClipboard(url);
     }
   },
 
